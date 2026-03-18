@@ -9,7 +9,7 @@ As the project grows, architectural decisions need to be recorded so that future
 
 ## Decision
 
-We record significant architectural decisions as Architecture Decision Records (ADRs) using the Michael Nygard format: Status, Context, Decision, Alternatives Considered, and Consequences. ADRs are stored in `docs/adr/` and numbered sequentially.
+We record significant architectural decisions as Architecture Decision Records (ADRs) using the Michael Nygard format: Status, Context, Decision, Alternatives Considered, and Consequences. ADRs are stored in `docs/adr/` and numbered sequentially. ADRs are immutable once accepted — if a decision is reversed, a new ADR supersedes the old one rather than editing it.
 
 ## Alternatives Considered
 
@@ -21,4 +21,3 @@ We record significant architectural decisions as Architecture Decision Records (
 
 - Decisions are discoverable and self-contained — each ADR stands on its own.
 - The format is lightweight enough that writing an ADR is not a burden, making it more likely they actually get written.
-- ADRs are immutable once accepted. If a decision is reversed, a new ADR supersedes the old one rather than editing it.
