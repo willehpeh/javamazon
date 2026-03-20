@@ -1,6 +1,6 @@
 # ADR-0002: Maven Over Gradle
 
-**Status:** Accepted
+**Status:** Superseded by ADR-0005
 **Date:** 2026-03-18
 
 ## Context
