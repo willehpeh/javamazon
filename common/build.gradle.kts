@@ -7,6 +7,10 @@ plugins {
 }
 
 dependencies {
+    implementation(platform(libs.opentelemetry.bom))
+    implementation("io.opentelemetry:opentelemetry-api")
+    testImplementation("io.opentelemetry:opentelemetry-sdk")
+    testImplementation("io.opentelemetry:opentelemetry-exporter-logging")
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.assertj)
 }
