@@ -1,12 +1,15 @@
 [versions]
-junit-jupiter = "5.11.4"
+spring-boot = "4.0.4"
+junit-jupiter = "6.0.3"
 assertj = "3.27.7"
-opentelemetry = "1.19.0"
+opentelemetry = "1.60.1"
 flyway = "12.1.1"
 testcontainers = "2.0.4"
 postgresql = "42.7.10"
 
 [libraries]
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
 junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
@@ -17,3 +20,6 @@ testcontainers = { module = "org.testcontainers:testcontainers", version.ref = "
 testcontainers-junit = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
