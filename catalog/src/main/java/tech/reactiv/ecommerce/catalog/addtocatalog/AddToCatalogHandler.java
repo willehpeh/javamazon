@@ -17,7 +17,7 @@ public class AddToCatalogHandler {
         var price = new ProductPrice(command.priceInCents());
         var category = new ProductCategory(command.category());
         var product = new Product(id, name, description, price, category);
-        repository.add(product);
+        repository.save(product);
         return id;
     }
 }

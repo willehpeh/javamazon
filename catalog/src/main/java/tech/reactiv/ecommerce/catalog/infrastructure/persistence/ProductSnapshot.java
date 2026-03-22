@@ -1,4 +1,6 @@
 package tech.reactiv.ecommerce.catalog.infrastructure.persistence;
 
-public record ProductSnapshot(String name, String description, int priceInCents, String category) {
+import java.util.UUID;
+
+public record ProductSnapshot(UUID id, String name, String description, int priceInCents, String category) {
 }
