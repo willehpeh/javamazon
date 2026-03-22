@@ -1,6 +1,5 @@
 package tech.reactiv.ecommerce.catalog.product;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public final class ProductId {
@@ -8,7 +7,9 @@ public final class ProductId {
     private final UUID id;
 
     private ProductId(UUID id) {
-        Objects.requireNonNull(id, "id must not be null");
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
+        }
         this.id = id;
     }
 
