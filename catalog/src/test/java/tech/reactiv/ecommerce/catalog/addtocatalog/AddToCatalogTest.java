@@ -14,7 +14,7 @@ public class AddToCatalogTest {
 
     @Test
     void shouldAddProductToCatalog() {
-        var command = new AddToCatalogCommand("Product A", "Description A", 100);
+        var command = new AddToCatalogCommand("Product A", "Description A", 100, "Toys");
         ProductId id = handler.handle(command);
 
         assertThat(id).isNotNull();
@@ -22,11 +22,12 @@ public class AddToCatalogTest {
         assertThat(product.name()).isEqualTo("Product A");
         assertThat(product.description()).isEqualTo("Description A");
         assertThat(product.priceInCents()).isEqualTo(100);
+        assertThat(product.category()).isEqualTo("Toys");
     }
 
     @Test
     void shouldRefuseInvalidProduct() {
-        var command = new AddToCatalogCommand("Product A", "Description A", -100);
+        var command = new AddToCatalogCommand("Product A", "Description A", -100, "Toys");
         assertThatThrownBy(() -> handler.handle(command))
             .isInstanceOf(IllegalArgumentException.class);
     }

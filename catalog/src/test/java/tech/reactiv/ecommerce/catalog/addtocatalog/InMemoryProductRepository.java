@@ -14,7 +14,7 @@ public class InMemoryProductRepository implements ProductRepository {
     @Override
     public void add(Product product) {
         var productState = product.state();
-        var snapshot = new ProductSnapshot(productState.name(), productState.description(), productState.priceInCents());
+        var snapshot = new ProductSnapshot(productState.name(), productState.description(), productState.priceInCents(), productState.category());
         products.put(product.id(), snapshot);
     }
 }
