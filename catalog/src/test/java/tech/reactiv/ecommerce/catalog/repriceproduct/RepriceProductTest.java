@@ -28,6 +28,14 @@ public class RepriceProductTest {
         assertThatThrownBy(() -> handler.handle(command)).isInstanceOf(ProductNotFoundException.class);
     }
 
+    @Test
+    void shouldFailToRepriceProductWithNegativePrice() {
+        var productId = ProductId.create();
+        repository.products.put(productId, dummyProduct(productId));
+
+        assertThatThrownBy(() -> handler.handle(new RepriceProductCommand(productId.value(),  -100))).isInstanceOf(IllegalArgumentException.class);
+    }
+
     private Product dummyProduct(ProductId productId) {
         return new Product(productId, new ProductName("Product A"), new ProductDescription("Product A description"), new ProductPrice(100), new ProductCategory("Toys"));
     }
