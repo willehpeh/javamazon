@@ -15,7 +15,7 @@ public class RepriceProductTest {
     @Test
     void shouldRepriceExistingProduct() {
         var productId = ProductId.create();
-        repository.products.put(productId, dummyProduct(productId));
+        repository.products.put(productId, TestProduct.basic(productId));
 
         handler.handle(new RepriceProductCommand(productId.value(), 300));
 
@@ -31,12 +31,8 @@ public class RepriceProductTest {
     @Test
     void shouldFailToRepriceProductWithNegativePrice() {
         var productId = ProductId.create();
-        repository.products.put(productId, dummyProduct(productId));
+        repository.products.put(productId, TestProduct.basic(productId));
 
         assertThatThrownBy(() -> handler.handle(new RepriceProductCommand(productId.value(),  -100))).isInstanceOf(IllegalArgumentException.class);
-    }
-
-    private Product dummyProduct(ProductId productId) {
-        return new Product(productId, new ProductName("Product A"), new ProductDescription("Product A description"), new ProductPrice(100), new ProductCategory("Toys"));
     }
 }

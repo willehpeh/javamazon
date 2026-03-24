@@ -9,6 +9,7 @@ public class Product {
     private final ProductDescription description;
     private ProductPrice price;
     private final ProductCategory category;
+    private boolean active;
 
     public Product(ProductId id, ProductName name, ProductDescription description, ProductPrice price, ProductCategory category) {
         this.id = id;
@@ -16,6 +17,7 @@ public class Product {
         this.description = description;
         this.price = price;
         this.category = category;
+        this.active = true;
     }
 
     public ProductId id() {
@@ -26,9 +28,14 @@ public class Product {
         this.price = newPrice;
     }
 
-    public record State(UUID id, String name, String description, int priceInCents, String category) {}
+    public void discontinue() {
+        this.active = false;
+    }
+
+    public record State(UUID id, String name, String description, int priceInCents, String category, boolean active) {
+    }
 
     public State state() {
-        return new State(id.value(), name.value(), description.value(), price.value(), category.value());
+        return new State(id.value(), name.value(), description.value(), price.value(), category.value(), active);
     }
 }
