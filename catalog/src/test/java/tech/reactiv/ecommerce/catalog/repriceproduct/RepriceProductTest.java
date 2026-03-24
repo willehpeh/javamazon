@@ -9,17 +9,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class RepriceProductTest {
-    InMemoryProducts repository = new InMemoryProducts();
-    RepriceProductHandler handler = new RepriceProductHandler(repository);
+    InMemoryProducts products = new InMemoryProducts();
+    RepriceProductHandler handler = new RepriceProductHandler(products);
 
     @Test
     void shouldRepriceExistingProduct() {
         var productId = ProductId.create();
-        repository.products.put(productId, TestProduct.basic(productId));
+        products.list.put(productId, TestProduct.basic(productId));
 
         handler.handle(new RepriceProductCommand(productId.value(), 300));
 
-        assertThat(repository.products.get(productId).state().priceInCents()).isEqualTo(300);
+        assertThat(products.list.get(productId).state().priceInCents()).isEqualTo(300);
     }
 
     @Test
@@ -31,7 +31,7 @@ public class RepriceProductTest {
     @Test
     void shouldFailToRepriceProductWithNegativePrice() {
         var productId = ProductId.create();
-        repository.products.put(productId, TestProduct.basic(productId));
+        products.list.put(productId, TestProduct.basic(productId));
 
         assertThatThrownBy(() -> handler.handle(new RepriceProductCommand(productId.value(),  -100))).isInstanceOf(IllegalArgumentException.class);
     }

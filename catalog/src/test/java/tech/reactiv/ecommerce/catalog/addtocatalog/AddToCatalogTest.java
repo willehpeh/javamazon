@@ -9,8 +9,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class AddToCatalogTest {
 
-    InMemoryProducts repository = new InMemoryProducts();
-    AddToCatalogHandler handler = new AddToCatalogHandler(repository);
+    InMemoryProducts products = new InMemoryProducts();
+    AddToCatalogHandler handler = new AddToCatalogHandler(products);
 
     @Test
     void shouldAddProductToCatalog() {
@@ -18,7 +18,7 @@ public class AddToCatalogTest {
         ProductId id = handler.handle(command);
 
         assertThat(id).isNotNull();
-        var state = repository.products.get(id).state();
+        var state = products.list.get(id).state();
         assertThat(state.name()).isEqualTo("Product A");
         assertThat(state.description()).isEqualTo("Description A");
         assertThat(state.priceInCents()).isEqualTo(100);

@@ -11,19 +11,19 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class DiscontinueProductTest {
 
-    InMemoryProducts repository = new InMemoryProducts();
-    DiscontinueProductHandler handler = new DiscontinueProductHandler(repository);
+    InMemoryProducts products = new InMemoryProducts();
+    DiscontinueProductHandler handler = new DiscontinueProductHandler(products);
 
     @Test
     void shouldDiscontinueProduct() {
         var productId = ProductId.create();
         var product = TestProduct.basic(productId);
-        repository.products.put(productId, product);
+        products.list.put(productId, product);
 
         var command = new DiscontinueProductCommand(productId);
         handler.handle(command);
 
-        assertThat(repository.products.get(productId).state().active()).isFalse();
+        assertThat(products.list.get(productId).state().active()).isFalse();
     }
 
     @Test

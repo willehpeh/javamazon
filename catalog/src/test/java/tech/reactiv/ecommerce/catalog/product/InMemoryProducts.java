@@ -5,15 +5,15 @@ import java.util.Map;
 import java.util.Optional;
 
 public class InMemoryProducts implements Products {
-    public final Map<ProductId, Product> products = new HashMap<>();
+    public final Map<ProductId, Product> list = new HashMap<>();
 
     @Override
     public void addOrUpdate(Product product) {
-        products.put(product.id(), product);
+        list.put(product.id(), product);
     }
 
     @Override
     public Optional<Product> productWithId(ProductId id) {
-        return Optional.ofNullable(products.get(id));
+        return Optional.ofNullable(list.get(id));
     }
 }
