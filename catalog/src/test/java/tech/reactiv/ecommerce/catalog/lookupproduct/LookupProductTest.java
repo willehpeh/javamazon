@@ -18,7 +18,7 @@ public class LookupProductTest {
     void shouldLookupProduct() {
         var productId = ProductId.create();
         var productView = TestProductView.basic(productId);
-        views.products.put(productId, productView);
+        views.list.put(productId, productView);
 
         Optional<ProductView> found = handler.handle(productId);
         assertThat(found.orElseThrow()).isEqualTo(productView);

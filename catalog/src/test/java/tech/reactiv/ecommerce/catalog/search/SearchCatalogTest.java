@@ -15,27 +15,30 @@ public class SearchCatalogTest {
     private final InMemoryProductViews views = new InMemoryProductViews();
     private final SearchCatalogHandler handler = new SearchCatalogHandler(views);
 
-    private List<ProductView> productViews;
+    private List<ProductView> dummyViews;
 
     @BeforeEach
     void setUp() {
-        productViews = TestProductView.basicList(10);
-        productViews.forEach(view -> views.products.put(ProductId.from(view.id()), view));
+        dummyViews = TestProductView.basicList(10);
+        dummyViews.forEach(view -> views.list.put(ProductId.from(view.id()), view));
     }
 
     @Test
     void shouldFindAllProductsIfNoFilterApplied() {
         var foundProducts = handler.handle(new SearchCatalogRequest());
-        assertThat(foundProducts).containsAll(productViews);
-        assertThat(productViews).containsAll(foundProducts);
+        assertThat(foundProducts).containsAll(dummyViews);
+        assertThat(dummyViews).containsAll(foundProducts);
     }
 
     @Test
     void shouldFindAllProductsForCategory() {
-        var firstProduct = productViews.getFirst();
+        var firstProduct = dummyViews.getFirst();
+        var newProductId = ProductId.create();
+        var newProductWithSameCategory = TestProductView.withCategory(TestProductView.basic(newProductId), firstProduct.category());
+        views.list.put(newProductId, newProductWithSameCategory);
         var request = new SearchCatalogRequest().withCategory(firstProduct.category());
 
         var foundProducts = handler.handle(request);
-        assertThat(foundProducts).containsExactly(firstProduct);
+        assertThat(foundProducts).containsExactlyInAnyOrder(firstProduct, newProductWithSameCategory);
     }
 }
