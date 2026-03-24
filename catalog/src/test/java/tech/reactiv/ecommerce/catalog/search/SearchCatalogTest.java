@@ -5,10 +5,9 @@ import org.junit.jupiter.api.Test;
 import tech.reactiv.ecommerce.catalog.product.InMemoryProductViews;
 import tech.reactiv.ecommerce.catalog.product.ProductId;
 import tech.reactiv.ecommerce.catalog.product.ProductView;
+import tech.reactiv.ecommerce.catalog.product.TestProductView;
 
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,15 +19,8 @@ public class SearchCatalogTest {
 
     @BeforeEach
     void setUp() {
-        productViews = IntStream.range(0, 10)
-                .mapToObj(i -> {
-                    var id = ProductId.create();
-                    var suffix = UUID.randomUUID().toString().substring(0, 8);
-                    var view = new ProductView(id.value(), "Product " + suffix, "Description " + suffix, 100 + i, "Category " + suffix, true);
-                    views.products.put(id, view);
-                    return view;
-                })
-                .toList();
+        productViews = TestProductView.basicList(10);
+        productViews.forEach(view -> views.products.put(ProductId.from(view.id()), view));
     }
 
     @Test

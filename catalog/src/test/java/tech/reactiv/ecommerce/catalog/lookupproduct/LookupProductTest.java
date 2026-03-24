@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import tech.reactiv.ecommerce.catalog.product.InMemoryProductViews;
 import tech.reactiv.ecommerce.catalog.product.ProductId;
 import tech.reactiv.ecommerce.catalog.product.ProductView;
+import tech.reactiv.ecommerce.catalog.product.TestProductView;
 
 import java.util.Optional;
 
@@ -16,7 +17,7 @@ public class LookupProductTest {
     @Test
     void shouldLookupProduct() {
         var productId = ProductId.create();
-        var productView = new ProductView(productId.value(), "Widget", "A fine widget", 999, "Gadgets", true);
+        var productView = TestProductView.basic(productId);
         views.products.put(productId, productView);
 
         Optional<ProductView> found = handler.handle(productId);
