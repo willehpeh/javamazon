@@ -1,29 +1,31 @@
 package tech.reactiv.ecommerce.catalog.lookupproduct;
 
 import org.junit.jupiter.api.Test;
-import tech.reactiv.ecommerce.catalog.product.*;
+import tech.reactiv.ecommerce.catalog.product.InMemoryProductViews;
+import tech.reactiv.ecommerce.catalog.product.ProductId;
+import tech.reactiv.ecommerce.catalog.product.ProductView;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LookupProductTest {
-    private final InMemoryProducts repository = new InMemoryProducts();
-    private final LookupProductHandler handler = new LookupProductHandler(repository);
+    private final InMemoryProductViews views = new InMemoryProductViews();
+    private final LookupProductHandler handler = new LookupProductHandler(views);
 
     @Test
     void shouldLookupProduct() {
         var productId = ProductId.create();
-        var product = TestProduct.basic(productId);
-        repository.products.put(productId, product);
+        var productView = new ProductView(productId.value(), "Widget", "A fine widget", 999, "Gadgets", true);
+        views.products.put(productId, productView);
 
-        Optional<Product> foundProduct = handler.handle(productId);
-        assertThat(foundProduct.orElseThrow()).isEqualTo(product);
+        Optional<ProductView> found = handler.handle(productId);
+        assertThat(found.orElseThrow()).isEqualTo(productView);
     }
 
     @Test
     void shouldNotFindNonExistentProduct() {
-        Optional<Product> foundProduct = handler.handle(ProductId.create());
-        assertThat(foundProduct).isEmpty();
+        Optional<ProductView> found = handler.handle(ProductId.create());
+        assertThat(found).isEmpty();
     }
 }

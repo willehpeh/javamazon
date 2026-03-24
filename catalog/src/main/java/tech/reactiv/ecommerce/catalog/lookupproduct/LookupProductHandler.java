@@ -1,20 +1,20 @@
 package tech.reactiv.ecommerce.catalog.lookupproduct;
 
-import tech.reactiv.ecommerce.catalog.product.Product;
 import tech.reactiv.ecommerce.catalog.product.ProductId;
-import tech.reactiv.ecommerce.catalog.product.Products;
+import tech.reactiv.ecommerce.catalog.product.ProductView;
+import tech.reactiv.ecommerce.catalog.product.ProductViews;
 
 import java.util.Optional;
 
 public class LookupProductHandler {
 
-    private final Products repository;
+    private final ProductViews views;
 
-    public LookupProductHandler(Products repository) {
-        this.repository = repository;
+    public LookupProductHandler(ProductViews views) {
+        this.views = views;
     }
 
-    public Optional<Product> handle(ProductId productId) {
-        return repository.productWithId(productId);
+    public Optional<ProductView> handle(ProductId productId) {
+        return views.withId(productId);
     }
 }

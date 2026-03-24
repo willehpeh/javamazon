@@ -1,19 +1,23 @@
 package tech.reactiv.ecommerce.catalog.search;
 
-import tech.reactiv.ecommerce.catalog.product.Product;
-import tech.reactiv.ecommerce.catalog.product.Products;
+import tech.reactiv.ecommerce.catalog.product.ProductView;
+import tech.reactiv.ecommerce.catalog.product.ProductViews;
 
 import java.util.List;
 
 public class SearchCatalogHandler {
 
-    private final Products repository;
+    private final ProductViews views;
 
-    public SearchCatalogHandler(Products repository) {
-        this.repository = repository;
+    public SearchCatalogHandler(ProductViews views) {
+        this.views = views;
     }
 
-    public List<Product> handle(SearchCatalogRequest request) {
-        return repository.all();
+    public List<ProductView> handle(SearchCatalogRequest request) {
+        var allProducts = views.all();
+        if (request.wantsAllProducts()) {
+            return allProducts;
+        }
+        return allProducts.stream().filter(product -> product.category().equals(request.category())).toList();
     }
 }
