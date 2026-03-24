@@ -4,9 +4,9 @@ import tech.reactiv.ecommerce.catalog.product.*;
 
 public class AddToCatalogHandler {
 
-    private final ProductRepository repository;
+    private final Products repository;
 
-    public AddToCatalogHandler(ProductRepository repository) {
+    public AddToCatalogHandler(Products repository) {
         this.repository = repository;
     }
 
@@ -17,7 +17,7 @@ public class AddToCatalogHandler {
         var price = new ProductPrice(command.priceInCents());
         var category = new ProductCategory(command.category());
         var product = new Product(id, name, description, price, category);
-        repository.save(product);
+        repository.addOrUpdate(product);
         return id;
     }
 }

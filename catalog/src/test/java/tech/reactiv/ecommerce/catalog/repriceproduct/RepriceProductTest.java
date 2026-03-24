@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class RepriceProductTest {
-    InMemoryProductRepository repository = new InMemoryProductRepository();
+    InMemoryProducts repository = new InMemoryProducts();
     RepriceProductHandler handler = new RepriceProductHandler(repository);
 
     @Test

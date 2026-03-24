@@ -4,9 +4,9 @@ import tech.reactiv.ecommerce.catalog.product.*;
 
 public class RepriceProductHandler {
 
-    private final ProductRepository repository;
+    private final Products repository;
 
-    public RepriceProductHandler(ProductRepository repository) {
+    public RepriceProductHandler(Products repository) {
         this.repository = repository;
     }
 
@@ -14,9 +14,9 @@ public class RepriceProductHandler {
         var id = ProductId.from(repriceCommand.productId());
         var newPrice = new ProductPrice(repriceCommand.newPriceInCents());
 
-        Product product = repository.findById(id).orElseThrow(() -> new ProductNotFoundException(id));
+        Product product = repository.productWithId(id).orElseThrow(() -> new ProductNotFoundException(id));
         product.reprice(newPrice);
 
-        repository.save(product);
+        repository.addOrUpdate(product);
     }
 }

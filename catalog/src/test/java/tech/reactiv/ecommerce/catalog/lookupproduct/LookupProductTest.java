@@ -8,7 +8,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class LookupProductTest {
-    private final InMemoryProductRepository repository = new InMemoryProductRepository();
+    private final InMemoryProducts repository = new InMemoryProducts();
     private final LookupProductHandler handler = new LookupProductHandler(repository);
 
     @Test

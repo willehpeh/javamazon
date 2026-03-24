@@ -1,7 +1,7 @@
 package tech.reactiv.ecommerce.catalog.discontinueproduct;
 
 import org.junit.jupiter.api.Test;
-import tech.reactiv.ecommerce.catalog.product.InMemoryProductRepository;
+import tech.reactiv.ecommerce.catalog.product.InMemoryProducts;
 import tech.reactiv.ecommerce.catalog.product.ProductId;
 import tech.reactiv.ecommerce.catalog.product.ProductNotFoundException;
 import tech.reactiv.ecommerce.catalog.product.TestProduct;
@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class DiscontinueProductTest {
 
-    InMemoryProductRepository repository = new InMemoryProductRepository();
+    InMemoryProducts repository = new InMemoryProducts();
     DiscontinueProductHandler handler = new DiscontinueProductHandler(repository);
 
     @Test

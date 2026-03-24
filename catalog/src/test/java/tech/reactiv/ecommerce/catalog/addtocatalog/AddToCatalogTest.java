@@ -1,7 +1,7 @@
 package tech.reactiv.ecommerce.catalog.addtocatalog;
 
 import org.junit.jupiter.api.Test;
-import tech.reactiv.ecommerce.catalog.product.InMemoryProductRepository;
+import tech.reactiv.ecommerce.catalog.product.InMemoryProducts;
 import tech.reactiv.ecommerce.catalog.product.ProductId;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -9,7 +9,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class AddToCatalogTest {
 
-    InMemoryProductRepository repository = new InMemoryProductRepository();
+    InMemoryProducts repository = new InMemoryProducts();
     AddToCatalogHandler handler = new AddToCatalogHandler(repository);
 
     @Test

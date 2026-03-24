@@ -1,19 +1,25 @@
 package tech.reactiv.ecommerce.catalog.product;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class InMemoryProductRepository implements ProductRepository {
+public class InMemoryProducts implements Products {
     public final Map<ProductId, Product> products = new HashMap<>();
 
     @Override
-    public void save(Product product) {
+    public void addOrUpdate(Product product) {
         products.put(product.id(), product);
     }
 
     @Override
-    public Optional<Product> findById(ProductId id) {
+    public Optional<Product> productWithId(ProductId id) {
         return Optional.ofNullable(products.get(id));
+    }
+
+    @Override
+    public List<Product> all() {
+        return List.copyOf(products.values());
     }
 }
