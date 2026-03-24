@@ -1,4 +1,4 @@
-package tech.reactiv.ecommerce.catalog.product;
+package tech.reactiv.ecommerce.catalog.product.views;
 
 import java.util.UUID;
 

@@ -4,10 +4,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import tech.reactiv.ecommerce.catalog.product.InMemoryProductViews;
+import tech.reactiv.ecommerce.catalog.product.views.InMemoryProductViews;
 import tech.reactiv.ecommerce.catalog.product.ProductId;
-import tech.reactiv.ecommerce.catalog.product.ProductView;
-import tech.reactiv.ecommerce.catalog.product.TestProductView;
+import tech.reactiv.ecommerce.catalog.product.views.ProductView;
+import tech.reactiv.ecommerce.catalog.product.views.TestProductView;
 
 import java.util.List;
 import java.util.stream.Stream;

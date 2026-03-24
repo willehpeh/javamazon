@@ -1,4 +1,6 @@
-package tech.reactiv.ecommerce.catalog.product;
+package tech.reactiv.ecommerce.catalog.product.views;
+
+import tech.reactiv.ecommerce.catalog.product.ProductId;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,7 +1,7 @@
 package tech.reactiv.ecommerce.catalog.search;
 
-import tech.reactiv.ecommerce.catalog.product.ProductView;
-import tech.reactiv.ecommerce.catalog.product.ProductViews;
+import tech.reactiv.ecommerce.catalog.product.views.ProductView;
+import tech.reactiv.ecommerce.catalog.product.views.ProductViews;
 
 import java.util.List;
 

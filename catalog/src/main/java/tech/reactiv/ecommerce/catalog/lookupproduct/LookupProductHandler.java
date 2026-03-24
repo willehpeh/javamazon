@@ -1,8 +1,8 @@
 package tech.reactiv.ecommerce.catalog.lookupproduct;
 
 import tech.reactiv.ecommerce.catalog.product.ProductId;
-import tech.reactiv.ecommerce.catalog.product.ProductView;
-import tech.reactiv.ecommerce.catalog.product.ProductViews;
+import tech.reactiv.ecommerce.catalog.product.views.ProductView;
+import tech.reactiv.ecommerce.catalog.product.views.ProductViews;
 
 import java.util.Optional;
 

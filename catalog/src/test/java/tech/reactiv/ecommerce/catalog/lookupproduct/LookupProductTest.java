@@ -1,10 +1,10 @@
 package tech.reactiv.ecommerce.catalog.lookupproduct;
 
 import org.junit.jupiter.api.Test;
-import tech.reactiv.ecommerce.catalog.product.InMemoryProductViews;
+import tech.reactiv.ecommerce.catalog.product.views.InMemoryProductViews;
 import tech.reactiv.ecommerce.catalog.product.ProductId;
-import tech.reactiv.ecommerce.catalog.product.ProductView;
-import tech.reactiv.ecommerce.catalog.product.TestProductView;
+import tech.reactiv.ecommerce.catalog.product.views.ProductView;
+import tech.reactiv.ecommerce.catalog.product.views.TestProductView;
 
 import java.util.Optional;
 
