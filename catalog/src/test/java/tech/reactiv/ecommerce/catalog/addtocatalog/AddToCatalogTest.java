@@ -23,13 +23,13 @@ public class AddToCatalogTest {
         var state = products.list.get(id).state();
         assertThat(state.name()).isEqualTo("Product A");
         assertThat(state.description()).isEqualTo("Description A");
-        assertThat(state.price().compareTo(new BigDecimal("1.00"))).isEqualTo(0);
+        assertThat(state.price()).isEqualByComparingTo(new BigDecimal("1.00"));
         assertThat(state.category()).isEqualTo("Toys");
     }
 
     @Test
     void shouldRefuseInvalidProduct() {
-        var command = new AddToCatalogCommand("Product A", "Description A", new BigDecimal(-100), "Toys");
+        var command = new AddToCatalogCommand("Product A", "Description A", new BigDecimal("-100.00"), "Toys");
         assertThatThrownBy(() -> handler.handle(command))
             .isInstanceOf(IllegalArgumentException.class);
     }

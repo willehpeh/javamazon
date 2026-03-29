@@ -14,7 +14,7 @@ public class ProductPriceTest {
     @Test
     void shouldCreateProductPrice() {
         var price = new ProductPrice(new Money(new BigDecimal("100.00")));
-        assertThat(price.value().compareTo(new BigDecimal(100))).isEqualTo(0);
+        assertThat(price.value()).isEqualByComparingTo(new BigDecimal("100.00"));
     }
     @ParameterizedTest
     @ValueSource(strings = {"0.00", "-1.00"})
