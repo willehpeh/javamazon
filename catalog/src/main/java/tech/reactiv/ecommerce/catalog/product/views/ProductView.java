@@ -1,6 +1,7 @@
 package tech.reactiv.ecommerce.catalog.product.views;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
-public record ProductView(UUID id, String name, String description, int priceInCents, String category, boolean active) {
+public record ProductView(UUID id, String name, String description, BigDecimal price, String category, boolean active) {
 }
