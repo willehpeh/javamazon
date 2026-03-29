@@ -15,7 +15,7 @@ public class AddToCatalogHandler {
         var id = ProductId.create();
         var name = new ProductName(command.productName());
         var description = new ProductDescription(command.description());
-        var price = new ProductPrice(new Money(command.priceInCents()));
+        var price = new ProductPrice(new Money(command.price()));
         var category = new ProductCategory(command.category());
         var product = new Product(id, name, description, price, category);
         repository.addOrUpdate(product);

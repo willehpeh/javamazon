@@ -1,4 +1,6 @@
 package tech.reactiv.ecommerce.catalog.addtocatalog;
 
-public record AddToCatalogCommand(String productName, String description, int priceInCents, String category) {
+import java.math.BigDecimal;
+
+public record AddToCatalogCommand(String productName, String description, BigDecimal price, String category) {
 }

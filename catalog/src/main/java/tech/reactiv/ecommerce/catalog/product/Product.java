@@ -1,5 +1,6 @@
 package tech.reactiv.ecommerce.catalog.product;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class Product {
@@ -32,7 +33,7 @@ public class Product {
         this.active = false;
     }
 
-    public record State(UUID id, String name, String description, int priceInCents, String category, boolean active) {
+    public record State(UUID id, String name, String description, BigDecimal price, String category, boolean active) {
     }
 
     public State state() {

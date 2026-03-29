@@ -3,6 +3,7 @@ package tech.reactiv.ecommerce.catalog.repriceproduct;
 import org.junit.jupiter.api.Test;
 import tech.reactiv.ecommerce.catalog.product.*;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,7 +20,7 @@ public class RepriceProductTest {
 
         handler.handle(new RepriceProductCommand(productId.value(), 300));
 
-        assertThat(products.list.get(productId).state().priceInCents()).isEqualTo(300);
+        assertThat(products.list.get(productId).state().price().compareTo(new BigDecimal(300))).isEqualTo(0);
     }
 
     @Test
