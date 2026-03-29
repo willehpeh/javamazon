@@ -18,14 +18,14 @@ public class RepriceProductTest {
         var productId = ProductId.create();
         products.list.put(productId, TestProduct.basic(productId));
 
-        handler.handle(new RepriceProductCommand(productId.value(), new BigDecimal("300")));
+        handler.handle(new RepriceProductCommand(productId.value(), new BigDecimal("300.00")));
 
         assertThat(products.list.get(productId).state().price()).isEqualByComparingTo(new BigDecimal("300"));
     }
 
     @Test
     void shouldFailToRepriceInvalidProduct() {
-        var command = new RepriceProductCommand(UUID.randomUUID(), new BigDecimal("300"));
+        var command = new RepriceProductCommand(UUID.randomUUID(), new BigDecimal("300.00"));
         assertThatThrownBy(() -> handler.handle(command)).isInstanceOf(ProductNotFoundException.class);
     }
 
@@ -34,6 +34,6 @@ public class RepriceProductTest {
         var productId = ProductId.create();
         products.list.put(productId, TestProduct.basic(productId));
 
-        assertThatThrownBy(() -> handler.handle(new RepriceProductCommand(productId.value(), new BigDecimal("-100")))).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> handler.handle(new RepriceProductCommand(productId.value(), new BigDecimal("-100.00")))).isInstanceOf(IllegalArgumentException.class);
     }
 }

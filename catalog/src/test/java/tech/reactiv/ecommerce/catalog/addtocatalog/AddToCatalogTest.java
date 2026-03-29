@@ -16,7 +16,7 @@ public class AddToCatalogTest {
 
     @Test
     void shouldAddProductToCatalog() {
-        var command = new AddToCatalogCommand("Product A", "Description A", new BigDecimal("1.0"), "Toys");
+        var command = new AddToCatalogCommand("Product A", "Description A", new BigDecimal("1.00"), "Toys");
         ProductId id = handler.handle(command);
 
         assertThat(id).isNotNull();

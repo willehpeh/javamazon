@@ -13,12 +13,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class ProductPriceTest {
     @Test
     void shouldCreateProductPrice() {
-        var price = new ProductPrice(new Money(new BigDecimal(100)));
+        var price = new ProductPrice(new Money(new BigDecimal("100.00")));
         assertThat(price.value().compareTo(new BigDecimal(100))).isEqualTo(0);
     }
     @ParameterizedTest
-    @ValueSource(ints = {-1, 0})
-    void shouldNotAllowInvalidPrice(int price) {
+    @ValueSource(strings = {"0.00", "-1.00"})
+    void shouldNotAllowInvalidPrice(String price) {
         assertThatThrownBy(() -> new ProductPrice(new Money(new BigDecimal(price))))
                 .isInstanceOf(IllegalArgumentException.class);
     }
