@@ -1,6 +1,5 @@
 package tech.reactiv.ecommerce.catalog.product;
 
-import org.jspecify.annotations.NonNull;
 import tech.reactiv.ecommerce.common.Money;
 
 import java.math.BigDecimal;

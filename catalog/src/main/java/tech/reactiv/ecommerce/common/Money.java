@@ -9,10 +9,6 @@ public final class Money {
         this.amount = amount;
     }
 
-    public Money(int amount) {
-        this(BigDecimal.valueOf(amount));
-    }
-
     public BigDecimal value() {
         return amount;
     }
