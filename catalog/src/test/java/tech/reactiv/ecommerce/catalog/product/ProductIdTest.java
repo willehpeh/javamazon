@@ -17,13 +17,13 @@ public class ProductIdTest {
     @Test
     void shouldCreateProductIdFromUUID() {
         var uuid = UUID.randomUUID();
-        var id = ProductId.from(uuid);
+        var id = new ProductId(uuid);
         assertThat(id.value()).isEqualTo(uuid);
     }
 
     @Test
     void shouldThrowForEmptyId() {
-        assertThatThrownBy(() -> ProductId.from(null))
+        assertThatThrownBy(() -> new ProductId(null))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

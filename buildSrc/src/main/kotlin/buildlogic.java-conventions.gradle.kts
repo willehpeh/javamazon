@@ -5,6 +5,7 @@
 plugins {
     `java-library`
     id("org.springframework.boot")
+    jacoco
 }
 
 repositories {

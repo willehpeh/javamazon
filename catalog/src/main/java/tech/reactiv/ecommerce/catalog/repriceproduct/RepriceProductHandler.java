@@ -12,7 +12,7 @@ public class RepriceProductHandler {
     }
 
     public void handle(RepriceProductCommand repriceCommand) {
-        var id = ProductId.from(repriceCommand.productId());
+        var id = new ProductId(repriceCommand.productId());
         var newPrice = new ProductPrice(new Money(repriceCommand.newPrice()));
 
         Product product = repository.productWithId(id).orElseThrow(() -> new ProductNotFoundException(id));

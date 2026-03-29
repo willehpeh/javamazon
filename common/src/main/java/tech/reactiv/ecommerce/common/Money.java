@@ -12,6 +12,10 @@ public final class Money {
         this.amount = amount;
     }
 
+    public Money(String amount) {
+        this(new BigDecimal(amount));
+    }
+
     public BigDecimal value() {
         return amount;
     }

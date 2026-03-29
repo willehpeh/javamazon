@@ -15,6 +15,10 @@ public class ProductPrice {
         this.price = price;
     }
 
+    public ProductPrice(String price) {
+        this.price = new Money(price);
+    }
+
     public BigDecimal value() {
         return price.value();
     }

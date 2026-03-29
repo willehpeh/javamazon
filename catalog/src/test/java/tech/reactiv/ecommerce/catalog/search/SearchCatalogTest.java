@@ -23,7 +23,7 @@ public class SearchCatalogTest {
     @BeforeEach
     void setUp() {
         dummyViews = TestProductView.basicList(10);
-        dummyViews.forEach(view -> views.list.put(ProductId.from(view.id()), view));
+        dummyViews.forEach(view -> views.list.put(new ProductId(view.id()), view));
     }
 
     @Test

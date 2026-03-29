@@ -16,6 +16,12 @@ public class MoneyTest {
         assertThat(money.value()).isEqualByComparingTo(new BigDecimal("1.00"));
     }
 
+    @Test
+    void shouldCreateMoneyFromString() {
+        var money = new Money("1.00");
+        assertThat(money.value()).isEqualByComparingTo(new BigDecimal("1.00"));
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"1", "1.0", "1.000", "1.0000"})
     void shouldThrowIfScaleIsNotTwo(String value) {
