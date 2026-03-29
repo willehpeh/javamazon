@@ -1,6 +1,7 @@
 package tech.reactiv.ecommerce.catalog.repriceproduct;
 
 import tech.reactiv.ecommerce.catalog.product.*;
+import tech.reactiv.ecommerce.common.Money;
 
 public class RepriceProductHandler {
 
@@ -12,7 +13,7 @@ public class RepriceProductHandler {
 
     public void handle(RepriceProductCommand repriceCommand) {
         var id = ProductId.from(repriceCommand.productId());
-        var newPrice = new ProductPrice(repriceCommand.newPriceInCents());
+        var newPrice = new ProductPrice(new Money(repriceCommand.newPriceInCents()));
 
         Product product = repository.productWithId(id).orElseThrow(() -> new ProductNotFoundException(id));
         product.reprice(newPrice);
