@@ -1,25 +1,26 @@
-package tech.reactiv.ecommerce.catalog.addtocatalog;
+package tech.reactiv.ecommerce.catalog.addproduct;
 
 import org.junit.jupiter.api.Test;
 import tech.reactiv.ecommerce.catalog.product.InMemoryProducts;
 import tech.reactiv.ecommerce.catalog.product.ProductId;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class AddToCatalogTest {
+public class AddProductTest {
 
     InMemoryProducts products = new InMemoryProducts();
-    AddToCatalogHandler handler = new AddToCatalogHandler(products);
+    AddProductHandler handler = new AddProductHandler(products);
 
     @Test
-    void shouldAddProductToCatalog() {
-        var command = new AddToCatalogCommand("Product A", "Description A", new BigDecimal("1.00"), "Toys");
-        ProductId id = handler.handle(command);
+    void shouldAddProduct() {
+        var id = ProductId.create();
+        var command = new AddProductCommand(id.value(), "Product A", "Description A", new BigDecimal("1.00"), "Toys");
+        handler.handle(command);
 
-        assertThat(id).isNotNull();
         var state = products.list.get(id).state();
         assertThat(state.name()).isEqualTo("Product A");
         assertThat(state.description()).isEqualTo("Description A");
@@ -29,7 +30,7 @@ public class AddToCatalogTest {
 
     @Test
     void shouldRefuseInvalidProduct() {
-        var command = new AddToCatalogCommand("Product A", "Description A", new BigDecimal("-100.00"), "Toys");
+        var command = new AddProductCommand(UUID.randomUUID(), "Product A", "Description A", new BigDecimal("-100.00"), "Toys");
         assertThatThrownBy(() -> handler.handle(command))
             .isInstanceOf(IllegalArgumentException.class);
     }
