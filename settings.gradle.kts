@@ -11,3 +11,5 @@ include(":catalog")
 include(":notification")
 include(":common")
 include(":search")
+
+include("shared")
