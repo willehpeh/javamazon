@@ -1,6 +1,7 @@
 package tech.reactiv.ecommerce.common;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public record Money(BigDecimal value) {
     public Money {
@@ -11,5 +12,26 @@ public record Money(BigDecimal value) {
 
     public Money(String value) {
         this(new BigDecimal(value));
+    }
+
+    public Money add(Money other) {
+        return new Money(value.add(other.value));
+    }
+
+    public Money subtract(Money other) {
+        return new Money(value.subtract(other.value));
+    }
+
+    public Money multiply(int multiplier) {
+        return new Money(value.multiply(BigDecimal.valueOf(multiplier)));
+    }
+
+    public Money percent(int percentage) {
+        if (percentage < 0) {
+            throw new IllegalArgumentException("Percentage must be positive");
+        }
+        BigDecimal percentageAsDecimal = BigDecimal.valueOf(percentage, 2).divide(BigDecimal.valueOf(100, 2), 2, RoundingMode.HALF_UP);
+        BigDecimal scaledResult = value.multiply(percentageAsDecimal).setScale(2, RoundingMode.HALF_UP);
+        return new Money(scaledResult);
     }
 }
