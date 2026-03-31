@@ -1,12 +1,11 @@
 package tech.reactiv.ecommerce.catalog.category;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public record CategoryId(UUID value) {
     public CategoryId {
-        if (value == null) {
-            throw new IllegalArgumentException("Category ID cannot be null");
-        }
+        Objects.requireNonNull(value, "Category ID cannot be null");
     }
 
     public static CategoryId create() {

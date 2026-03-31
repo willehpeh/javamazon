@@ -24,6 +24,6 @@ public class ProductIdTest {
     @Test
     void shouldThrowForEmptyId() {
         assertThatThrownBy(() -> new ProductId(null))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NullPointerException.class);
     }
 }

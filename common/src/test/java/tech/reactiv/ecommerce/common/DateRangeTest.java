@@ -31,9 +31,9 @@ public class DateRangeTest {
 
     @Test
     void shouldNotCreateDateRangeWithNullDates() {
-        assertThatThrownBy(() -> new DateRange(null, null)).isInstanceOf(IllegalArgumentException.class);
-        assertThatThrownBy(() -> new DateRange(LocalDate.now(), null)).isInstanceOf(IllegalArgumentException.class);
-        assertThatThrownBy(() -> new DateRange(null, LocalDate.now())).isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new DateRange(null, null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new DateRange(LocalDate.now(), null)).isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> new DateRange(null, LocalDate.now())).isInstanceOf(NullPointerException.class);
     }
 
     @Test

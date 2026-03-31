@@ -2,11 +2,14 @@ package tech.reactiv.ecommerce.common;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Objects;
 
 public record DateRange(LocalDate startDate, LocalDate endDate) {
     public DateRange {
-        if (startDate == null || endDate == null || startDate.isAfter(endDate)) {
-            throw new IllegalArgumentException("Start and end dates cannot be null");
+        Objects.requireNonNull(startDate);
+        Objects.requireNonNull(endDate);
+        if (startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("Start cannot be after end");
         }
     }
 

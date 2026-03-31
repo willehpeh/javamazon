@@ -24,6 +24,6 @@ public class CategoryIdTest {
     @Test
     void shouldThrowForNullId() {
         assertThatThrownBy(() -> new CategoryId(null))
-                .isInstanceOf(IllegalArgumentException.class);
+                .isInstanceOf(NullPointerException.class);
     }
 }
