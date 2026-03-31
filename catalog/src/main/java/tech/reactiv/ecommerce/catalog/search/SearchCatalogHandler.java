@@ -1,5 +1,6 @@
 package tech.reactiv.ecommerce.catalog.search;
 
+import tech.reactiv.ecommerce.catalog.category.CategoryId;
 import tech.reactiv.ecommerce.catalog.product.views.ProductView;
 import tech.reactiv.ecommerce.catalog.product.views.ProductViews;
 
@@ -14,10 +15,9 @@ public class SearchCatalogHandler {
     }
 
     public List<ProductView> handle(SearchCatalogRequest request) {
-        var allProducts = views.all();
         if (request.wantsAllProducts()) {
-            return allProducts;
+            return views.all();
         }
-        return allProducts.stream().filter(product -> product.categoryId().equals(request.categoryId())).toList();
+        return views.forCategory(new CategoryId(request.categoryId()));
     }
 }
