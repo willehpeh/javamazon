@@ -5,18 +5,18 @@ import java.util.UUID;
 
 public class Promotion {
 
-    private final PromotionId promotionId;
+    private final PromotionId id;
     private final PromotionDescription description;
     private final PromotionDiscountPercent discountPercent;
     private final LocalDate startDate;
     private final LocalDate endDate;
     private final PromotionTarget target;
 
-    public Promotion(PromotionId promotionId, PromotionDescription description, PromotionDiscountPercent discountPercent, LocalDate startDate, LocalDate endDate, PromotionTarget target) {
+    public Promotion(PromotionId id, PromotionDescription description, PromotionDiscountPercent discountPercent, LocalDate startDate, LocalDate endDate, PromotionTarget target) {
         if (startDate.isAfter(endDate)) {
             throw new IllegalArgumentException("Start date must be before end date");
         }
-        this.promotionId = promotionId;
+        this.id = id;
         this.description = description;
         this.discountPercent = discountPercent;
         this.startDate = startDate;
@@ -25,13 +25,29 @@ public class Promotion {
     }
 
     public PromotionId id() {
-        return promotionId;
+        return id;
     }
 
     public record State(UUID id, String description, int discountPercent, LocalDate startDate, LocalDate endDate, PromotionTarget target) {
     }
 
     public State state() {
-        return new State(promotionId.value(), description.value(), discountPercent.value(), startDate, endDate, target);
+        return new State(id.value(), description.value(), discountPercent.value(), startDate, endDate, target);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Promotion that)) {
+            return false;
+        }
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }

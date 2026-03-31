@@ -41,4 +41,20 @@ public class Product {
     public State state() {
         return new State(id.value(), name.value(), description.value(), price.value(), categoryId.value(), active);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Product that)) {
+            return false;
+        }
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }
