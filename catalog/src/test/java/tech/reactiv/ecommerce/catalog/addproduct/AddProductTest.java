@@ -18,19 +18,20 @@ public class AddProductTest {
     @Test
     void shouldAddProduct() {
         var id = ProductId.create();
-        var command = new AddProductCommand(id.value(), "Product A", "Description A", new BigDecimal("1.00"), "Toys");
+        var categoryId = UUID.randomUUID();
+        var command = new AddProductCommand(id.value(), "Product A", "Description A", new BigDecimal("1.00"), categoryId);
         handler.handle(command);
 
         var state = products.list.get(id).state();
         assertThat(state.name()).isEqualTo("Product A");
         assertThat(state.description()).isEqualTo("Description A");
         assertThat(state.price()).isEqualByComparingTo(new BigDecimal("1.00"));
-        assertThat(state.category()).isEqualTo("Toys");
+        assertThat(state.categoryId()).isEqualTo(categoryId);
     }
 
     @Test
     void shouldRefuseInvalidProduct() {
-        var command = new AddProductCommand(UUID.randomUUID(), "Product A", "Description A", new BigDecimal("-100.00"), "Toys");
+        var command = new AddProductCommand(UUID.randomUUID(), "Product A", "Description A", new BigDecimal("-100.00"), UUID.randomUUID());
         assertThatThrownBy(() -> handler.handle(command))
             .isInstanceOf(IllegalArgumentException.class);
     }

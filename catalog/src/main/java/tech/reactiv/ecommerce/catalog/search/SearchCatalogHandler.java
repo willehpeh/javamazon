@@ -18,6 +18,6 @@ public class SearchCatalogHandler {
         if (request.wantsAllProducts()) {
             return allProducts;
         }
-        return allProducts.stream().filter(product -> product.category().equals(request.category())).toList();
+        return allProducts.stream().filter(product -> product.categoryId().equals(request.categoryId())).toList();
     }
 }

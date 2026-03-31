@@ -1,5 +1,6 @@
 package tech.reactiv.ecommerce.catalog.product;
 
+import tech.reactiv.ecommerce.catalog.category.CategoryId;
 import tech.reactiv.ecommerce.common.Money;
 
 import java.math.BigDecimal;
@@ -8,12 +9,11 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public final class TestProduct {
     public static Product basic(ProductId id) {
-        var suffix = UUID.randomUUID().toString().substring(0, 8);
         return new Product(id,
-                new ProductName("Product " + suffix),
-                new ProductDescription("Description " + suffix),
+                new ProductName("Product " + UUID.randomUUID().toString().substring(0, 8)),
+                new ProductDescription("Description " + UUID.randomUUID().toString().substring(0, 8)),
                 new ProductPrice(randomPrice()),
-                new ProductCategory("Category " + suffix));
+                CategoryId.create());
     }
 
     private static Money randomPrice() {

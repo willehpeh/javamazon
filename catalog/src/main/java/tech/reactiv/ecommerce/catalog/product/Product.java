@@ -1,5 +1,7 @@
 package tech.reactiv.ecommerce.catalog.product;
 
+import tech.reactiv.ecommerce.catalog.category.CategoryId;
+
 import java.math.BigDecimal;
 import java.util.UUID;
 
@@ -9,15 +11,15 @@ public class Product {
     private final ProductName name;
     private final ProductDescription description;
     private ProductPrice price;
-    private final ProductCategory category;
+    private final CategoryId categoryId;
     private boolean active;
 
-    public Product(ProductId id, ProductName name, ProductDescription description, ProductPrice price, ProductCategory category) {
+    public Product(ProductId id, ProductName name, ProductDescription description, ProductPrice price, CategoryId categoryId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.category = category;
+        this.categoryId = categoryId;
         this.active = true;
     }
 
@@ -33,10 +35,10 @@ public class Product {
         this.active = false;
     }
 
-    public record State(UUID id, String name, String description, BigDecimal price, String category, boolean active) {
+    public record State(UUID id, String name, String description, BigDecimal price, UUID categoryId, boolean active) {
     }
 
     public State state() {
-        return new State(id.value(), name.value(), description.value(), price.value(), category.value(), active);
+        return new State(id.value(), name.value(), description.value(), price.value(), categoryId.value(), active);
     }
 }

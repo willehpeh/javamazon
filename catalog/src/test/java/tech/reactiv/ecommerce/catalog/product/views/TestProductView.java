@@ -10,17 +10,16 @@ import java.util.stream.IntStream;
 
 public final class TestProductView {
 
-    private static ProductView productView(UUID id, String name, String description, BigDecimal price, String category, boolean active) {
-        return new ProductView(id, name, description, price, category, active);
+    private static ProductView productView(UUID id, String name, String description, BigDecimal price, UUID categoryId, boolean active) {
+        return new ProductView(id, name, description, price, categoryId, active);
     }
 
     public static ProductView basic(ProductId id) {
-        var suffix = UUID.randomUUID().toString().substring(0, 8);
         return productView(id.value(),
-                "Product " + suffix,
-                "Description " + suffix,
+                "Product " + UUID.randomUUID().toString().substring(0, 8),
+                "Description " + UUID.randomUUID().toString().substring(0, 8),
                 BigDecimal.valueOf(ThreadLocalRandom.current().nextInt(100, 10001), 2),
-                "Category " + suffix,
+                UUID.randomUUID(),
                 true);
     }
 
@@ -30,7 +29,7 @@ public final class TestProductView {
                 .toList();
     }
 
-    public static ProductView withCategory(ProductView productView, String category) {
-        return productView(productView.id(), productView.name(), productView.description(), productView.price(), category, true);
+    public static ProductView withCategory(ProductView productView, UUID categoryId) {
+        return productView(productView.id(), productView.name(), productView.description(), productView.price(), categoryId, true);
     }
 }

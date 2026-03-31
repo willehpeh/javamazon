@@ -1,4 +1,4 @@
-package tech.reactiv.ecommerce.catalog.product;
+package tech.reactiv.ecommerce.catalog.category;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -8,18 +8,18 @@ import org.junit.jupiter.params.provider.ValueSource;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class ProductCategoryTest {
+public class CategoryNameTest {
     @Test
-    void shouldCreateProductCategory() {
-        var category = new ProductCategory("Toys");
-        assertThat(category.value()).isEqualTo("Toys");
+    void shouldCreateCategoryName() {
+        var name = new CategoryName("Toys");
+        assertThat(name.value()).isEqualTo("Toys");
     }
 
     @ParameterizedTest
     @NullAndEmptySource
     @ValueSource(strings = {" ", "\t", "\n"})
-    void shouldThrowForEmptyCategory(String category) {
-        assertThatThrownBy(() -> new ProductCategory(category))
+    void shouldThrowForBlankName(String name) {
+        assertThatThrownBy(() -> new CategoryName(name))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }

@@ -10,6 +10,7 @@ import tech.reactiv.ecommerce.catalog.product.views.ProductView;
 import tech.reactiv.ecommerce.catalog.product.views.TestProductView;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,9 +38,9 @@ public class SearchCatalogTest {
     void shouldFindAllProductsForCategory() {
         var firstProduct = dummyViews.getFirst();
         var newProductId = ProductId.create();
-        var newProductWithSameCategory = TestProductView.withCategory(TestProductView.basic(newProductId), firstProduct.category());
+        var newProductWithSameCategory = TestProductView.withCategory(TestProductView.basic(newProductId), firstProduct.categoryId());
         views.list.put(newProductId, newProductWithSameCategory);
-        var request = new SearchCatalogRequest().withCategory(firstProduct.category());
+        var request = new SearchCatalogRequest().withCategory(firstProduct.categoryId());
 
         var foundProducts = handler.handle(request);
         assertThat(foundProducts).containsExactlyInAnyOrder(firstProduct, newProductWithSameCategory);
@@ -54,8 +55,8 @@ public class SearchCatalogTest {
 
     static Stream<SearchCatalogRequest> nonMatchingRequests() {
         return Stream.of(
-                new SearchCatalogRequest().withCategory("Non-existent category"),
-                new SearchCatalogRequest().withCategory("Another non-existent category")
+                new SearchCatalogRequest().withCategory(UUID.randomUUID()),
+                new SearchCatalogRequest().withCategory(UUID.randomUUID())
         );
     }
 }

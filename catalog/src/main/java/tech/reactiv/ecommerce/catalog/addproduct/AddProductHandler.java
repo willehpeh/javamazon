@@ -1,5 +1,6 @@
 package tech.reactiv.ecommerce.catalog.addproduct;
 
+import tech.reactiv.ecommerce.catalog.category.CategoryId;
 import tech.reactiv.ecommerce.catalog.product.*;
 import tech.reactiv.ecommerce.common.Money;
 
@@ -15,9 +16,9 @@ public class AddProductHandler {
         var name = new ProductName(command.productName());
         var description = new ProductDescription(command.description());
         var price = new ProductPrice(new Money(command.price()));
-        var category = new ProductCategory(command.category());
+        var categoryId = new CategoryId(command.categoryId());
         var id = new ProductId(command.productId());
-        var product = new Product(id, name, description, price, category);
+        var product = new Product(id, name, description, price, categoryId);
         repository.addOrUpdate(product);
     }
 }
