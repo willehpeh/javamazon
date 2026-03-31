@@ -1,5 +1,6 @@
 package tech.reactiv.ecommerce.catalog.product.views;
 
+import tech.reactiv.ecommerce.catalog.category.CategoryId;
 import tech.reactiv.ecommerce.catalog.product.ProductId;
 
 import java.util.List;
@@ -9,4 +10,5 @@ public interface ProductViews {
     Optional<ProductView> withId(ProductId id);
 
     List<ProductView> all();
+    List<ProductView> forCategory(CategoryId categoryId);
 }

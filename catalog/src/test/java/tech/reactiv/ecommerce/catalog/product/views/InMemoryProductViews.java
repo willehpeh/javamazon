@@ -1,5 +1,6 @@
 package tech.reactiv.ecommerce.catalog.product.views;
 
+import tech.reactiv.ecommerce.catalog.category.CategoryId;
 import tech.reactiv.ecommerce.catalog.product.ProductId;
 
 import java.util.HashMap;
@@ -18,5 +19,12 @@ public class InMemoryProductViews implements ProductViews {
     @Override
     public List<ProductView> all() {
         return List.copyOf(list.values());
+    }
+
+    @Override
+    public List<ProductView> forCategory(CategoryId categoryId) {
+        return list.values().stream()
+                .filter(productView -> productView.categoryId().equals(categoryId.value()))
+                .toList();
     }
 }

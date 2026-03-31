@@ -13,6 +13,9 @@ public class Promotion {
     private final PromotionTarget target;
 
     public Promotion(PromotionId promotionId, PromotionDescription description, PromotionDiscountPercent discountPercent, LocalDate startDate, LocalDate endDate, PromotionTarget target) {
+        if (startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("Start date must be before end date");
+        }
         this.promotionId = promotionId;
         this.description = description;
         this.discountPercent = discountPercent;

@@ -3,7 +3,7 @@ package tech.reactiv.ecommerce.common;
 import java.math.BigDecimal;
 
 public final class Money {
-    public final BigDecimal amount;
+    private final BigDecimal amount;
 
     public Money(BigDecimal amount) {
         if (amount.scale() != 2) {
