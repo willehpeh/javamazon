@@ -9,5 +9,5 @@ public record AddProductCommand(UUID productId,
                                 String productName,
                                 String description,
                                 BigDecimal price,
-                                UUID categoryId) implements Command<Void> {
+                                UUID categoryId) implements Command {
 }

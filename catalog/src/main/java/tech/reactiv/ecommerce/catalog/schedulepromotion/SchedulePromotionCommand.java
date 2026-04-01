@@ -14,5 +14,5 @@ public record SchedulePromotionCommand(PromotionId promotionId,
                                        PromotionDiscountPercent discountPercent,
                                        LocalDate startDate,
                                        LocalDate endDate,
-                                       PromotionTarget target) implements Command<Void> {
+                                       PromotionTarget target) implements Command {
 }

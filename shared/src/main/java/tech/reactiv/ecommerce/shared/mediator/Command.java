@@ -1,4 +1,4 @@
 package tech.reactiv.ecommerce.shared.mediator;
 
-public interface Command<R> {
+public interface Command {
 }
