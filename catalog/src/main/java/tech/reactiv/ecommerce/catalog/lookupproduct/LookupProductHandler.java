@@ -1,11 +1,14 @@
 package tech.reactiv.ecommerce.catalog.lookupproduct;
 
+import org.springframework.stereotype.Component;
 import tech.reactiv.ecommerce.catalog.product.views.ProductView;
 import tech.reactiv.ecommerce.catalog.product.views.ProductViews;
+import tech.reactiv.ecommerce.shared.mediator.QueryHandler;
 
 import java.util.Optional;
 
-public class LookupProductHandler {
+@Component
+public class LookupProductHandler implements QueryHandler<LookupProductRequest, Optional<ProductView>> {
 
     private final ProductViews views;
 

@@ -1,9 +1,12 @@
 package tech.reactiv.ecommerce.catalog.schedulepromotion;
 
+import org.springframework.stereotype.Component;
 import tech.reactiv.ecommerce.catalog.promotion.Promotion;
 import tech.reactiv.ecommerce.catalog.promotion.Promotions;
+import tech.reactiv.ecommerce.shared.mediator.CommandHandler;
 
-public class SchedulePromotionHandler {
+@Component
+public class SchedulePromotionHandler implements CommandHandler<SchedulePromotionCommand> {
 
     private final Promotions promotions;
 

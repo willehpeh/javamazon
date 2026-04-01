@@ -1,9 +1,12 @@
 package tech.reactiv.ecommerce.catalog.repriceproduct;
 
+import org.springframework.stereotype.Component;
 import tech.reactiv.ecommerce.catalog.product.*;
 import tech.reactiv.ecommerce.common.Money;
+import tech.reactiv.ecommerce.shared.mediator.CommandHandler;
 
-public class RepriceProductHandler {
+@Component
+public class RepriceProductHandler implements CommandHandler<RepriceProductCommand> {
 
     private final Products repository;
 

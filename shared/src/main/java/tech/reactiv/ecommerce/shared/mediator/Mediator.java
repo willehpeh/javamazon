@@ -1,6 +1,6 @@
 package tech.reactiv.ecommerce.shared.mediator;
 
 public interface Mediator {
-    void send(Command command);
-    <R> R send(Query<R> query);
+    void command(Command command);
+    <R> R query(Query<R> query);
 }
