@@ -1,6 +1,5 @@
 package tech.reactiv.ecommerce.catalog.lookupproduct;
 
-import tech.reactiv.ecommerce.catalog.product.ProductId;
 import tech.reactiv.ecommerce.catalog.product.views.ProductView;
 import tech.reactiv.ecommerce.catalog.product.views.ProductViews;
 
@@ -14,7 +13,7 @@ public class LookupProductHandler {
         this.views = views;
     }
 
-    public Optional<ProductView> handle(ProductId productId) {
-        return views.withId(productId);
+    public Optional<ProductView> handle(LookupProductRequest request) {
+        return views.withId(request.productId());
     }
 }
