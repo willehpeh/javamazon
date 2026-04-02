@@ -43,6 +43,8 @@ testing {
                 implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
                 implementation(libs.findLibrary("spring-boot-starter-test").get())
                 implementation(libs.findLibrary("spring-boot-resttestclient").get())
+                implementation(libs.findLibrary("flyway").get())
+                implementation(libs.findLibrary("flyway-postgres").get())
                 implementation(libs.findLibrary("testcontainers").get())
                 implementation(libs.findLibrary("testcontainers-junit").get())
                 implementation(libs.findLibrary("testcontainers-postgres").get())

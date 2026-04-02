@@ -10,6 +10,9 @@ dependencies {
     api(project(":common"))
     api(project(":shared"))
     implementation(libs.spring.boot.starter.web)
+    implementation(libs.flyway)
+    implementation(libs.flyway.postgres)
+    runtimeOnly(libs.postgresql)
 }
 
 description = "catalog"
