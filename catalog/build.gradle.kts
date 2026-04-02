@@ -10,6 +10,7 @@ dependencies {
     api(project(":common"))
     api(project(":shared"))
     implementation(libs.spring.boot.starter.web)
+    implementation(libs.spring.boot.starter.data.jpa)
     implementation(libs.flyway)
     implementation(libs.flyway.postgres)
     runtimeOnly(libs.postgresql)
