@@ -1,5 +1,7 @@
 package tech.reactiv.ecommerce.shared.mediator;
 
+import org.springframework.stereotype.Component;
+
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+@Component
 public class SpringMediator implements Mediator {
 
     private final Map<Class<?>, CommandHandler<?>> commandHandlers = new HashMap<>();

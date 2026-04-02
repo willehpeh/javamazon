@@ -4,7 +4,6 @@
 
 plugins {
     `java-library`
-    id("org.springframework.boot")
     jacoco
 }
 
@@ -29,3 +28,4 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+

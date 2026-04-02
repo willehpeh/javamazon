@@ -1,10 +1,23 @@
 plugins {
-    base
+    id("buildlogic.java-conventions")
+    id("org.springframework.boot")
     jacoco
 }
 
 repositories {
     mavenCentral()
+}
+
+dependencies {
+    implementation(project(":catalog"))
+    implementation(project(":common"))
+    implementation(project(":shared"))
+    implementation(project(":cart"))
+    implementation(project(":order"))
+    implementation(project(":inventory"))
+    implementation(project(":payment"))
+    implementation(project(":search"))
+    implementation(project(":notification"))
 }
 
 tasks.register<JacocoReport>("testCodeCoverageReport") {

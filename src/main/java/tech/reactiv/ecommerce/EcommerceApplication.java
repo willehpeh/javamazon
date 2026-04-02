@@ -1,11 +1,11 @@
-package tech.reactiv.ecommerce.catalog;
+package tech.reactiv.ecommerce;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CatalogApplication {
+public class EcommerceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(CatalogApplication.class, args);
+        SpringApplication.run(EcommerceApplication.class, args);
     }
 }
