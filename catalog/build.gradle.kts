@@ -10,9 +10,6 @@ dependencies {
     api(project(":common"))
     api(project(":shared"))
     implementation(libs.spring.boot.starter.web)
-    testImplementation(libs.spring.boot.starter.test)
-    testImplementation(libs.junit.jupiter)
-    testImplementation(libs.assertj)
 }
 
 description = "catalog"

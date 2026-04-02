@@ -5,11 +5,14 @@
 plugins {
     `java-library`
     jacoco
+    `jvm-test-suite`
 }
 
 repositories {
     mavenCentral()
 }
+
+val libs = the<VersionCatalogsExtension>().named("libs")
 
 group = "tech.reactiv.ecommerce"
 version = "0.0.1"
@@ -21,11 +24,40 @@ java {
 
 dependencies {
     implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
-    implementation("org.springframework.boot:spring-boot-starter-validation")
-    "testRuntimeOnly"("org.junit.platform:junit-platform-launcher")
+    implementation(libs.findLibrary("spring-boot-starter-validation").get())
+    testImplementation(libs.findLibrary("spring-boot-starter-test").get())
+    testImplementation(libs.findLibrary("assertj").get())
+    testRuntimeOnly(libs.findLibrary("junit-platform-launcher").get())
 }
 
 tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+testing {
+    suites {
+        register<JvmTestSuite>("acceptanceTest") {
+            useJUnitJupiter()
+            dependencies {
+                implementation(project())
+                implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+                implementation(libs.findLibrary("spring-boot-starter-test").get())
+                implementation(libs.findLibrary("spring-boot-resttestclient").get())
+                implementation(libs.findLibrary("testcontainers").get())
+                implementation(libs.findLibrary("testcontainers-junit").get())
+                implementation(libs.findLibrary("testcontainers-postgres").get())
+            }
+            targets {
+                all {
+                    testTask.configure {
+                        shouldRunAfter(tasks.test)
+                    }
+                }
+            }
+        }
+    }
+}
+
+tasks.check {
+    dependsOn(testing.suites.named("acceptanceTest"))
+}
