@@ -22,6 +22,7 @@ java {
 
 dependencies {
     implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     "testRuntimeOnly"("org.junit.platform:junit-platform-launcher")
 }
 
