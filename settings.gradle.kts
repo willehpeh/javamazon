@@ -12,4 +12,4 @@ include(":notification")
 include(":common")
 include(":search")
 
-include("shared")
+include(":shared")
