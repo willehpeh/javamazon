@@ -15,7 +15,6 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 import tech.reactiv.ecommerce.catalog.addproduct.AddProductCommand;
-import tech.reactiv.ecommerce.catalog.lookupproduct.LookupProductRequest;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -65,6 +64,13 @@ class CatalogControllerTest {
 
         restClient.get().uri("catalog/products/{id}", productId)
                 .exchange()
-                .expectStatus().isOk();
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.id").isEqualTo(productId.toString())
+                .jsonPath("$.name").isEqualTo("Product A")
+                .jsonPath("$.description").isEqualTo("Description A")
+                .jsonPath("$.price").isEqualTo(1.00)
+                .jsonPath("$.categoryId").isEqualTo(categoryId.toString())
+                .jsonPath("$.active").isEqualTo(true);
     }
 }
