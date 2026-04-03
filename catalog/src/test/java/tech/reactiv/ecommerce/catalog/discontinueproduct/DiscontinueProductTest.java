@@ -20,7 +20,7 @@ public class DiscontinueProductTest {
         var product = TestProduct.basic(productId);
         products.list.put(productId, product);
 
-        var command = new DiscontinueProductCommand(productId);
+        var command = new DiscontinueProductCommand(productId.value());
         handler.handle(command);
 
         assertThat(products.list.get(productId).state().active()).isFalse();
@@ -29,7 +29,7 @@ public class DiscontinueProductTest {
     @Test
     void shouldFailToDiscontinueNonExistentProduct() {
         var productId = ProductId.create();
-        var command = new DiscontinueProductCommand(productId);
+        var command = new DiscontinueProductCommand(productId.value());
 
         assertThatThrownBy(() -> handler.handle(command))
             .isInstanceOf(ProductNotFoundException.class);
