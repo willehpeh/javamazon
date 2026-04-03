@@ -25,6 +25,10 @@ java {
 dependencies {
     implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
     implementation(libs.findLibrary("spring-boot-starter-validation").get())
+    implementation(libs.findLibrary("spring-boot-starter-data-jpa").get())
+    implementation(libs.findLibrary("flyway").get())
+    implementation(libs.findLibrary("flyway-postgres").get())
+    runtimeOnly(libs.findLibrary("postgresql").get())
     testImplementation(libs.findLibrary("spring-boot-starter-test").get())
     testImplementation(libs.findLibrary("assertj").get())
     testRuntimeOnly(libs.findLibrary("junit-platform-launcher").get())
@@ -40,11 +44,8 @@ testing {
             useJUnitJupiter()
             dependencies {
                 implementation(project())
-                implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
                 implementation(libs.findLibrary("spring-boot-starter-test").get())
                 implementation(libs.findLibrary("spring-boot-resttestclient").get())
-                implementation(libs.findLibrary("flyway").get())
-                implementation(libs.findLibrary("flyway-postgres").get())
                 implementation(libs.findLibrary("testcontainers").get())
                 implementation(libs.findLibrary("testcontainers-junit").get())
                 implementation(libs.findLibrary("testcontainers-postgres").get())
@@ -58,6 +59,13 @@ testing {
             }
         }
     }
+}
+
+configurations.named("acceptanceTestImplementation") {
+    extendsFrom(configurations.implementation.get())
+}
+configurations.named("acceptanceTestRuntimeOnly") {
+    extendsFrom(configurations.runtimeOnly.get())
 }
 
 tasks.check {
