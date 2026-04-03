@@ -20,13 +20,13 @@ public class LookupProductTest {
         var productView = TestProductView.basic(productId);
         views.list.put(productId, productView);
 
-        Optional<ProductView> found = handler.handle(new LookupProductRequest(productId));
+        Optional<ProductView> found = handler.handle(new LookupProductRequest(productId.value()));
         assertThat(found.orElseThrow()).isEqualTo(productView);
     }
 
     @Test
     void shouldNotFindNonExistentProduct() {
-        Optional<ProductView> found = handler.handle(new LookupProductRequest(ProductId.create()));
+        Optional<ProductView> found = handler.handle(new LookupProductRequest(ProductId.create().value()));
         assertThat(found).isEmpty();
     }
 }

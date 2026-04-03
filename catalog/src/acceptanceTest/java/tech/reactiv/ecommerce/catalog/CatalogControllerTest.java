@@ -4,10 +4,10 @@ import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.client.RestTestClient;
@@ -15,9 +15,9 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 import tech.reactiv.ecommerce.catalog.addproduct.AddProductCommand;
+import tech.reactiv.ecommerce.catalog.lookupproduct.LookupProductRequest;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.UUID;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -57,9 +57,14 @@ class CatalogControllerTest {
 
     @Test
     void createsAndRetrievesProduct() {
-        var command = new AddProductCommand(UUID.randomUUID(), "Product A", "Description A", new BigDecimal("1.00"), categoryId);
+        var productId = UUID.randomUUID();
+        var command = new AddProductCommand(productId, "Product A", "Description A", new BigDecimal("1.00"), categoryId);
         restClient.post().uri("/catalog/products").body(command)
                 .exchange()
                 .expectStatus().isCreated();
+
+        restClient.get().uri("catalog/products/{id}", productId)
+                .exchange()
+                .expectStatus().isOk();
     }
 }
