@@ -20,15 +20,8 @@ public class SchedulePromotionHandler implements CommandHandler<SchedulePromotio
                 new PromotionDiscountPercent(command.discountPercent()),
                 command.startDate(),
                 command.endDate(),
-                toTarget(command.target())
+                command.target()
         );
         promotions.schedule(promotion);
-    }
-
-    private PromotionTarget toTarget(String target) {
-        return switch (target) {
-            case "ALL_PRODUCTS" -> new AllProducts();
-            default -> throw new IllegalArgumentException("Unknown promotion target: " + target);
-        };
     }
 }

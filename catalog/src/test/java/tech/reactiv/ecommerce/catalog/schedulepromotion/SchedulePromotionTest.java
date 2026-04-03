@@ -2,6 +2,7 @@ package tech.reactiv.ecommerce.catalog.schedulepromotion;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import tech.reactiv.ecommerce.catalog.category.CategoryId;
 import tech.reactiv.ecommerce.catalog.promotion.*;
 
 import java.time.LocalDate;
@@ -15,13 +16,16 @@ public class SchedulePromotionTest {
     InMemoryPromotions promotions = new InMemoryPromotions();
     SchedulePromotionHandler handler = new SchedulePromotionHandler(promotions);
 
-    public static Stream<String> promotionTargets() {
-        return Stream.of("ALL_PRODUCTS");
+    public static Stream<PromotionTarget> promotionTargets() {
+        return Stream.of(
+                new AllProducts(),
+                new ByCategory(new CategoryId(UUID.randomUUID()))
+        );
     }
 
     @ParameterizedTest
     @MethodSource("promotionTargets")
-    void shouldSchedulePromotionsWithTarget(String target) {
+    void shouldSchedulePromotionsWithTarget(PromotionTarget target) {
         var id = UUID.randomUUID();
         var description = "10% off on all items";
         var discountPercent = 10;
@@ -38,5 +42,6 @@ public class SchedulePromotionTest {
         assertThat(newPromotion.state().discountPercent()).isEqualTo(discountPercent);
         assertThat(newPromotion.state().startDate()).isEqualTo(startDate);
         assertThat(newPromotion.state().endDate()).isEqualTo(endDate);
+        assertThat(newPromotion.state().target()).isEqualTo(target);
     }
 }

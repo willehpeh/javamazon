@@ -1,5 +1,6 @@
 package tech.reactiv.ecommerce.catalog.schedulepromotion;
 
+import tech.reactiv.ecommerce.catalog.promotion.PromotionTarget;
 import tech.reactiv.ecommerce.shared.mediator.Command;
 
 import java.time.LocalDate;
@@ -10,5 +11,5 @@ public record SchedulePromotionCommand(UUID promotionId,
                                        int discountPercent,
                                        LocalDate startDate,
                                        LocalDate endDate,
-                                       String target) implements Command {
+                                       PromotionTarget target) implements Command {
 }
