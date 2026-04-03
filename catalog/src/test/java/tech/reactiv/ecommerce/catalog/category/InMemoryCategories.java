@@ -1,7 +1,5 @@
 package tech.reactiv.ecommerce.catalog.category;
 
-import tech.reactiv.ecommerce.catalog.definecategory.Categories;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;

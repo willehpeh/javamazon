@@ -1,5 +1,6 @@
 package tech.reactiv.ecommerce.catalog.definecategory;
 
+import tech.reactiv.ecommerce.catalog.category.Categories;
 import tech.reactiv.ecommerce.catalog.category.Category;
 import tech.reactiv.ecommerce.catalog.category.CategoryId;
 import tech.reactiv.ecommerce.catalog.category.CategoryName;
