@@ -19,6 +19,10 @@ abstract class AcceptanceTest {
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
+        addDbContainerPropsToRegistry(registry);
+    }
+
+    private static void addDbContainerPropsToRegistry(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgres::getJdbcUrl);
         registry.add("spring.datasource.username", postgres::getUsername);
         registry.add("spring.datasource.password", postgres::getPassword);
@@ -26,6 +30,10 @@ abstract class AcceptanceTest {
 
     @BeforeAll
     static void setUp() {
+        configureFlywayAndRunMigrations();
+    }
+
+    private static void configureFlywayAndRunMigrations() {
         Flyway.configure()
                 .dataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword())
                 .load()
