@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.Immutable;
 import tech.reactiv.ecommerce.catalog.product.views.ProductView;
+import tech.reactiv.ecommerce.common.Money;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -35,6 +36,6 @@ class ProductViewEntity {
     }
 
     ProductView toProductView() {
-        return new ProductView(id, name, description, price, categoryId, active);
+        return new ProductView(id, name, description, new Money(price), categoryId, active);
     }
 }

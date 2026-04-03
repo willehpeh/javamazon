@@ -2,6 +2,7 @@ package tech.reactiv.ecommerce.catalog.repriceproduct;
 
 import org.junit.jupiter.api.Test;
 import tech.reactiv.ecommerce.catalog.product.*;
+import tech.reactiv.ecommerce.common.Money;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -20,7 +21,7 @@ public class RepriceProductTest {
 
         handler.handle(new RepriceProductCommand(productId.value(), new BigDecimal("300.00")));
 
-        assertThat(products.list.get(productId).state().price()).isEqualByComparingTo(new BigDecimal("300"));
+        assertThat(products.list.get(productId).state().price()).isEqualTo(new Money("300.00"));
     }
 
     @Test

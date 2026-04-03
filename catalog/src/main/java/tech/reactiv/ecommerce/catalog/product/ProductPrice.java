@@ -4,22 +4,15 @@ import tech.reactiv.ecommerce.common.Money;
 
 import java.math.BigDecimal;
 
-public class ProductPrice {
+public record ProductPrice(Money value) {
 
-    private final Money price;
-
-    public ProductPrice(Money price) {
-        if (price.value().compareTo(BigDecimal.ZERO) <= 0) {
+    public ProductPrice {
+        if (value.value().compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Price must be positive");
         }
-        this.price = price;
     }
 
-    public ProductPrice(String price) {
-        this(new Money(price));
-    }
-
-    public BigDecimal value() {
-        return price.value();
+    public ProductPrice(String value) {
+        this(new Money(value));
     }
 }

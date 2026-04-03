@@ -21,7 +21,7 @@ class CatalogControllerTest extends AcceptanceTest {
         catalog.verifyProduct(productId, product -> {
             assertThat(product.name()).isEqualTo("Laptop");
             assertThat(product.description()).isEqualTo("A powerful laptop");
-            assertThat(product.price()).isEqualByComparingTo("999.99");
+            assertThat(product.price().value()).isEqualByComparingTo("999.99");
             assertThat(product.active()).isTrue();
         });
     }

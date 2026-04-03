@@ -3,6 +3,7 @@ package tech.reactiv.ecommerce.catalog.addproduct;
 import org.junit.jupiter.api.Test;
 import tech.reactiv.ecommerce.catalog.product.InMemoryProducts;
 import tech.reactiv.ecommerce.catalog.product.ProductId;
+import tech.reactiv.ecommerce.common.Money;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -25,7 +26,7 @@ public class AddProductTest {
         var state = products.list.get(id).state();
         assertThat(state.name()).isEqualTo("Product A");
         assertThat(state.description()).isEqualTo("Description A");
-        assertThat(state.price()).isEqualByComparingTo(new BigDecimal("1.00"));
+        assertThat(state.price()).isEqualTo(new Money("1.00"));
         assertThat(state.categoryId()).isEqualTo(categoryId);
     }
 

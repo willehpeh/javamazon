@@ -5,13 +5,18 @@ import java.math.RoundingMode;
 
 public record Money(BigDecimal value) {
     public Money {
-        if (value.scale() != 2) {
+        if (value.scale() > 2) {
             throw new IllegalArgumentException("Money must have 2 decimal places");
         }
+        value = value.setScale(2, RoundingMode.HALF_UP);
     }
 
     public Money(String value) {
         this(new BigDecimal(value));
+    }
+
+    public Money(int value) {
+        this(BigDecimal.valueOf(value));
     }
 
     public Money add(Money other) {

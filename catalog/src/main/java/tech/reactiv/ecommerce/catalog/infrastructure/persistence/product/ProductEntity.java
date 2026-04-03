@@ -44,7 +44,7 @@ public class ProductEntity {
         entity.id = state.id();
         entity.name = state.name();
         entity.description = state.description();
-        entity.price = state.price();
+        entity.price = state.price().value();
         entity.categoryId = state.categoryId();
         entity.active = state.active();
         entity.createdAt = LocalDateTime.now();

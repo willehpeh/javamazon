@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 
@@ -17,15 +18,22 @@ public class MoneyTest {
         assertThat(money.value()).isEqualByComparingTo(new BigDecimal("1.00"));
     }
 
-    @Test
-    void shouldCreateMoneyFromString() {
-        var money = new Money("1.00");
+    @ParameterizedTest
+    @ValueSource(strings = {"1", "1.0", "1.00"})
+    void shouldCreateMoneyFromString(String value) {
+        var money = new Money(value);
         assertThat(money.value()).isEqualByComparingTo(new BigDecimal("1.00"));
     }
 
+    @Test
+    void shouldCreateMoneyFromInt() {
+        var money = new Money(10);
+        assertThat(money.value()).isEqualByComparingTo(new BigDecimal("10.00"));
+    }
+
     @ParameterizedTest
-    @ValueSource(strings = {"1", "1.0", "1.000", "1.0000"})
-    void shouldThrowIfScaleIsNotTwo(String value) {
+    @ValueSource(strings = {"1.000", "1.0000"})
+    void shouldThrowIfScaleIsGreaterThanTwo(String value) {
         assertThatThrownBy(() -> new Money(new BigDecimal(value))).isInstanceOf(IllegalArgumentException.class);
     }
 
