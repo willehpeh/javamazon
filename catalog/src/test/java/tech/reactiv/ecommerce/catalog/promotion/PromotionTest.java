@@ -1,43 +1,51 @@
 package tech.reactiv.ecommerce.catalog.promotion;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import tech.reactiv.ecommerce.catalog.category.CategoryId;
 
 import java.time.LocalDate;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class PromotionTest {
-    @Test
-    void shouldCreatePromotion() {
-        PromotionId promotionId = new PromotionId(UUID.randomUUID());
-        PromotionDescription description = new PromotionDescription("Summer Sale");
-        PromotionDiscountPercent discountPercent = new PromotionDiscountPercent(20);
-        LocalDate startDate = LocalDate.of(2023, 6, 1);
-        LocalDate endDate = LocalDate.of(2023, 8, 31);
-        PromotionTarget target = new AllProducts();
 
-        Promotion promotion = new Promotion(promotionId, description, discountPercent, startDate, endDate, target);
+    static Stream<PromotionTarget> targets() {
+        return Stream.of(
+                new AllProducts(),
+                new ByCategory(new CategoryId(UUID.randomUUID()))
+        );
+    }
 
-        assertThat(promotion.state().id()).isEqualTo(promotionId.value());
-        assertThat(promotion.state().description()).isEqualTo(description.value());
-        assertThat(promotion.state().discountPercent()).isEqualTo(discountPercent.value());
-        assertThat(promotion.state().startDate()).isEqualTo(startDate);
-        assertThat(promotion.state().endDate()).isEqualTo(endDate);
-        assertThat(promotion.state().target()).isEqualTo(target);
+    @ParameterizedTest
+    @MethodSource("targets")
+    void shouldCreatePromotion(PromotionTarget target) {
+        var id = new PromotionId(UUID.randomUUID());
+        var description = new PromotionDescription("Summer Sale");
+        var discountPercent = new PromotionDiscountPercent(20);
+        var startDate = LocalDate.of(2023, 6, 1);
+        var endDate = LocalDate.of(2023, 8, 31);
+
+        var promotion = new Promotion(id, description, discountPercent, startDate, endDate, target);
+
+        assertThat(promotion.state()).isEqualTo(
+                new Promotion.State(id.value(), description.value(), discountPercent.value(), startDate, endDate, target)
+        );
     }
 
     @Test
     void shouldNotCreatePromotionIfEndDateIsBeforeStartDate() {
-        PromotionId promotionId = new PromotionId(UUID.randomUUID());
-        PromotionDescription description = new PromotionDescription("Summer Sale");
-        PromotionDiscountPercent discountPercent = new PromotionDiscountPercent(20);
-        LocalDate startDate = LocalDate.of(2023, 8, 31);
-        LocalDate invalidEndDate = LocalDate.of(2023, 6, 1);
-        PromotionTarget target = new AllProducts();
-
-        assertThatThrownBy(() -> new Promotion(promotionId, description, discountPercent, startDate, invalidEndDate, target))
-            .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> new Promotion(
+                new PromotionId(UUID.randomUUID()),
+                new PromotionDescription("Summer Sale"),
+                new PromotionDiscountPercent(20),
+                LocalDate.of(2023, 8, 31),
+                LocalDate.of(2023, 6, 1),
+                new AllProducts()
+        )).isInstanceOf(IllegalArgumentException.class);
     }
 }

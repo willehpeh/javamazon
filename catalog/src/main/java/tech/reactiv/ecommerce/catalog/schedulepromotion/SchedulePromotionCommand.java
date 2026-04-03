@@ -1,18 +1,14 @@
 package tech.reactiv.ecommerce.catalog.schedulepromotion;
 
-import tech.reactiv.ecommerce.catalog.promotion.PromotionDescription;
-import tech.reactiv.ecommerce.catalog.promotion.PromotionDiscountPercent;
-import tech.reactiv.ecommerce.catalog.promotion.PromotionId;
-import tech.reactiv.ecommerce.catalog.promotion.PromotionTarget;
-
 import tech.reactiv.ecommerce.shared.mediator.Command;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
-public record SchedulePromotionCommand(PromotionId promotionId,
-                                       PromotionDescription description,
-                                       PromotionDiscountPercent discountPercent,
+public record SchedulePromotionCommand(UUID promotionId,
+                                       String description,
+                                       int discountPercent,
                                        LocalDate startDate,
                                        LocalDate endDate,
-                                       PromotionTarget target) implements Command {
+                                       String target) implements Command {
 }
