@@ -2,7 +2,6 @@ package tech.reactiv.ecommerce.catalog.dsl;
 
 import org.springframework.stereotype.Component;
 import tech.reactiv.ecommerce.catalog.driver.CatalogDriver;
-import tech.reactiv.ecommerce.catalog.product.views.ProductView;
 
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -32,9 +31,28 @@ public class CatalogDsl {
         throw new IllegalStateException("Product must have a category");
     }
 
-    public void verifyProduct(UUID productId, Consumer<ProductView> assertions) {
-        var product = driver.lookupProduct(productId);
-        assertThat(product).isNotNull();
-        assertions.accept(product);
+    public void verifyProductExists(UUID productId) {
+        assertThat(driver.lookupProduct(productId)).isNotNull();
+    }
+
+    public void verifyProductHasName(UUID productId, String expectedName) {
+        assertThat(driver.lookupProduct(productId).name()).isEqualTo(expectedName);
+    }
+
+    public void verifyProductHasDescription(UUID productId, String expectedDescription) {
+        assertThat(driver.lookupProduct(productId).description()).isEqualTo(expectedDescription);
+    }
+
+    public void verifyProductHasPrice(UUID productId, String expectedPrice) {
+        assertThat(driver.lookupProduct(productId).price().value()).isEqualByComparingTo(expectedPrice);
+    }
+
+    public void verifyProductIsActive(UUID productId) {
+        assertThat(driver.lookupProduct(productId).active()).isTrue();
+    }
+
+    public void verifyProductCount(int expectedCount) {
+        var products = driver.listProducts();
+        assertThat(products).hasSize(expectedCount);
     }
 }

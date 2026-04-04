@@ -1,5 +1,6 @@
 package tech.reactiv.ecommerce.catalog.driver;
 
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.client.RestTestClient;
@@ -7,6 +8,7 @@ import tech.reactiv.ecommerce.catalog.addproduct.AddProductCommand;
 import tech.reactiv.ecommerce.catalog.product.views.ProductView;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Component
@@ -43,6 +45,16 @@ class HttpCatalogDriver implements CatalogDriver {
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody(ProductView.class)
+                .returnResult()
+                .getResponseBody();
+    }
+
+    @Override
+    public List<ProductView> listProducts() {
+        return restClient.get().uri("/catalog/products")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(new ParameterizedTypeReference<List<ProductView>>() {})
                 .returnResult()
                 .getResponseBody();
     }

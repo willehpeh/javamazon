@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import tech.reactiv.ecommerce.catalog.dsl.CatalogDsl;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 class CatalogControllerTest extends AcceptanceTest {
 
     @Autowired
@@ -18,11 +16,20 @@ class CatalogControllerTest extends AcceptanceTest {
                 .withName("Laptop")
                 .withDescription("A powerful laptop")
                 .withPrice("999.99"));
-        catalog.verifyProduct(productId, product -> {
-            assertThat(product.name()).isEqualTo("Laptop");
-            assertThat(product.description()).isEqualTo("A powerful laptop");
-            assertThat(product.price().value()).isEqualByComparingTo("999.99");
-            assertThat(product.active()).isTrue();
-        });
+        catalog.verifyProductExists(productId);
+        catalog.verifyProductHasName(productId, "Laptop");
+        catalog.verifyProductHasDescription(productId, "A powerful laptop");
+        catalog.verifyProductHasPrice(productId, "999.99");
+        catalog.verifyProductIsActive(productId);
+    }
+
+    @Test
+    void retrievesAllProducts() {
+        catalog.addProduct(p -> {});
+        catalog.addProduct(p -> {});
+        catalog.addProduct(p -> {});
+        catalog.addProduct(p -> {});
+
+        catalog.verifyProductCount(4);
     }
 }
