@@ -2,7 +2,7 @@
 
 ## Bug
 
-### 1. `ProductEntity.fromProductState()` overwrites `createdAt` on every save
+### ~~1. `ProductEntity.fromProductState()` overwrites `createdAt` on every save~~ FIXED
 **File:** `catalog/src/main/java/.../infrastructure/persistence/product/ProductEntity.java:50`
 
 `entity.createdAt = LocalDateTime.now()` is called every time, including on updates. When `addOrUpdate` is called for a reprice or discontinue, the product's `createdAt` will be reset. This is data corruption.
@@ -35,11 +35,6 @@ All other value objects (`ProductId`, `ProductName`, `ProductDescription`, `Cate
 **File:** `catalog/src/main/java/.../product/Product.java:38`
 
 `Product.State` uses `BigDecimal price` rather than carrying the `Money` type. Infrastructure code that reads the state must know to reconstruct `Money` from a raw `BigDecimal`, and the scale-2 invariant of `Money` is silently lost. The state record could use `Money` directly.
-
-### 7. `SearchCatalogRequest.withCategory()` is a misleading instance method
-**File:** `catalog/src/main/java/.../search/SearchCatalogRequest.java:15-17`
-
-`withCategory` creates a new instance, but it's called on an existing instance that gets thrown away. It reads like a builder but it's not — it's a factory method that should be static or removed. The no-arg constructor + `withCategory` pattern is confusing.
 
 ### 8. No idempotency guard on `AddProductHandler`
 **File:** `catalog/src/main/java/.../addproduct/AddProductHandler.java`

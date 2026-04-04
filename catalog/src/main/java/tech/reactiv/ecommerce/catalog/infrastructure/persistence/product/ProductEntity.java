@@ -9,7 +9,6 @@ import tech.reactiv.ecommerce.catalog.product.*;
 import tech.reactiv.ecommerce.common.Money;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -33,9 +32,6 @@ public class ProductEntity {
     @Column(nullable = false)
     private boolean active;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
     protected ProductEntity() {
     }
 
@@ -47,7 +43,6 @@ public class ProductEntity {
         entity.price = state.price().value();
         entity.categoryId = state.categoryId();
         entity.active = state.active();
-        entity.createdAt = LocalDateTime.now();
         return entity;
     }
 
