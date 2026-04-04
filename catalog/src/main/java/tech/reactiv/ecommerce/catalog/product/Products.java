@@ -3,7 +3,9 @@ package tech.reactiv.ecommerce.catalog.product;
 import java.util.Optional;
 
 public interface Products {
-    void addOrUpdate(Product product);
+    void add(Product product);
+
+    void modify(Product product);
 
     Optional<Product> productWithId(ProductId id);
 }

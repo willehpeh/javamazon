@@ -10,16 +10,16 @@ import tech.reactiv.ecommerce.shared.mediator.CommandHandler;
 @Component
 public class DiscontinueProductHandler implements CommandHandler<DiscontinueProductCommand> {
 
-    private final Products repository;
+    private final Products products;
 
-    public DiscontinueProductHandler(Products repository) {
-        this.repository = repository;
+    public DiscontinueProductHandler(Products products) {
+        this.products = products;
     }
 
     public void handle(DiscontinueProductCommand command) {
         var productId = new ProductId(command.productId());
-        Product product = repository.productWithId(productId).orElseThrow(() -> new ProductNotFoundException(productId));
+        Product product = products.productWithId(productId).orElseThrow(() -> new ProductNotFoundException(productId));
         product.discontinue();
-        repository.addOrUpdate(product);
+        products.modify(product);
     }
 }

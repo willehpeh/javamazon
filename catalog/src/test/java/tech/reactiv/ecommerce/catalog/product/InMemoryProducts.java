@@ -8,7 +8,12 @@ public class InMemoryProducts implements Products {
     public final Map<ProductId, Product> list = new HashMap<>();
 
     @Override
-    public void addOrUpdate(Product product) {
+    public void add(Product product) {
+        list.put(product.id(), product);
+    }
+
+    @Override
+    public void modify(Product product) {
         list.put(product.id(), product);
     }
 

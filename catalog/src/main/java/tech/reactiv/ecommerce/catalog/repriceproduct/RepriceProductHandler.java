@@ -8,19 +8,19 @@ import tech.reactiv.ecommerce.shared.mediator.CommandHandler;
 @Component
 public class RepriceProductHandler implements CommandHandler<RepriceProductCommand> {
 
-    private final Products repository;
+    private final Products products;
 
-    public RepriceProductHandler(Products repository) {
-        this.repository = repository;
+    public RepriceProductHandler(Products products) {
+        this.products = products;
     }
 
     public void handle(RepriceProductCommand repriceCommand) {
         var id = new ProductId(repriceCommand.productId());
         var newPrice = new ProductPrice(new Money(repriceCommand.newPrice()));
 
-        Product product = repository.productWithId(id).orElseThrow(() -> new ProductNotFoundException(id));
+        Product product = products.productWithId(id).orElseThrow(() -> new ProductNotFoundException(id));
         product.reprice(newPrice);
 
-        repository.addOrUpdate(product);
+        products.modify(product);
     }
 }

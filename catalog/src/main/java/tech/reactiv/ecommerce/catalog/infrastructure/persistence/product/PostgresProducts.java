@@ -17,7 +17,12 @@ class PostgresProducts implements Products {
     }
 
     @Override
-    public void addOrUpdate(Product product) {
+    public void add(Product product) {
+        jpaProducts.save(ProductEntity.fromProductState(product.state()));
+    }
+
+    @Override
+    public void modify(Product product) {
         jpaProducts.save(ProductEntity.fromProductState(product.state()));
     }
 

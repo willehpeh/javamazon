@@ -9,10 +9,10 @@ import tech.reactiv.ecommerce.shared.mediator.CommandHandler;
 @Component
 public class AddProductHandler implements CommandHandler<AddProductCommand> {
 
-    private final Products repository;
+    private final Products products;
 
-    public AddProductHandler(Products repository) {
-        this.repository = repository;
+    public AddProductHandler(Products products) {
+        this.products = products;
     }
 
     public void handle(AddProductCommand command) {
@@ -22,6 +22,6 @@ public class AddProductHandler implements CommandHandler<AddProductCommand> {
         var categoryId = new CategoryId(command.categoryId());
         var id = new ProductId(command.productId());
         var product = new Product(id, name, description, price, categoryId);
-        repository.addOrUpdate(product);
+        products.add(product);
     }
 }

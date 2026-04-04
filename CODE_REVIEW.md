@@ -36,7 +36,7 @@ All other value objects (`ProductId`, `ProductName`, `ProductDescription`, `Cate
 
 `Product.State` uses `BigDecimal price` rather than carrying the `Money` type. Infrastructure code that reads the state must know to reconstruct `Money` from a raw `BigDecimal`, and the scale-2 invariant of `Money` is silently lost. The state record could use `Money` directly.
 
-### 8. No idempotency guard on `AddProductHandler`
+### ~~8. No idempotency guard on `AddProductHandler`~~ FIXED
 **File:** `catalog/src/main/java/.../addproduct/AddProductHandler.java`
 
 If the same `AddProductCommand` is sent twice with the same `productId`, it silently overwrites. The `addOrUpdate` naming suggests this is intentional, but then `AddProduct` is a misleading name — it implies creation only. Either guard against duplicates or rename to reflect upsert semantics.
