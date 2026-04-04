@@ -16,11 +16,14 @@ public class AddProductHandler implements CommandHandler<AddProductCommand> {
     }
 
     public void handle(AddProductCommand command) {
+        var id = new ProductId(command.productId());
+        if (products.exists(id)) {
+            throw new ProductAlreadyExistsException(id);
+        }
         var name = new ProductName(command.productName());
         var description = new ProductDescription(command.description());
         var price = new ProductPrice(new Money(command.price()));
         var categoryId = new CategoryId(command.categoryId());
-        var id = new ProductId(command.productId());
         var product = new Product(id, name, description, price, categoryId);
         products.add(product);
     }

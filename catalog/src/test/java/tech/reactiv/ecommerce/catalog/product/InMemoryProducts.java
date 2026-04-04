@@ -21,4 +21,9 @@ public class InMemoryProducts implements Products {
     public Optional<Product> productWithId(ProductId id) {
         return Optional.ofNullable(list.get(id));
     }
+
+    @Override
+    public boolean exists(ProductId id) {
+        return list.containsKey(id);
+    }
 }

@@ -8,4 +8,6 @@ public interface Products {
     void modify(Product product);
 
     Optional<Product> productWithId(ProductId id);
+
+    boolean exists(ProductId id);
 }

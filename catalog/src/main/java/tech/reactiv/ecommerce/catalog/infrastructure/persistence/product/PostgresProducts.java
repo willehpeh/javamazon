@@ -31,4 +31,9 @@ class PostgresProducts implements Products {
         return jpaProducts.findById(id.value())
                 .map(ProductEntity::toProduct);
     }
+
+    @Override
+    public boolean exists(ProductId id) {
+        return jpaProducts.existsById(id.value());
+    }
 }

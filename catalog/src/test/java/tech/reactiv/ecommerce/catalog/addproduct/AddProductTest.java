@@ -2,6 +2,7 @@ package tech.reactiv.ecommerce.catalog.addproduct;
 
 import org.junit.jupiter.api.Test;
 import tech.reactiv.ecommerce.catalog.product.InMemoryProducts;
+import tech.reactiv.ecommerce.catalog.product.ProductAlreadyExistsException;
 import tech.reactiv.ecommerce.catalog.product.ProductId;
 import tech.reactiv.ecommerce.common.Money;
 
@@ -35,5 +36,15 @@ public class AddProductTest {
         var command = new AddProductCommand(UUID.randomUUID(), "Product A", "Description A", new BigDecimal("-100.00"), UUID.randomUUID());
         assertThatThrownBy(() -> handler.handle(command))
             .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    void shouldRefuseDuplicateProduct() {
+        var id = ProductId.create();
+        var command = new AddProductCommand(id.value(), "Product A", "Description A", new BigDecimal("1.00"), UUID.randomUUID());
+        handler.handle(command);
+
+        assertThatThrownBy(() -> handler.handle(command))
+            .isInstanceOf(ProductAlreadyExistsException.class);
     }
 }
