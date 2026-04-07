@@ -1,5 +1,7 @@
 package tech.reactiv.ecommerce.catalog.promotion;
 
+import tech.reactiv.ecommerce.common.DateRange;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -8,8 +10,7 @@ public class Promotion {
     private final PromotionId id;
     private final PromotionDescription description;
     private final PromotionDiscountPercent discountPercent;
-    private final LocalDate startDate;
-    private final LocalDate endDate;
+    private final DateRange dateRange;
     private final PromotionTarget target;
 
     public Promotion(PromotionId id, PromotionDescription description, PromotionDiscountPercent discountPercent, LocalDate startDate, LocalDate endDate, PromotionTarget target) {
@@ -19,8 +20,7 @@ public class Promotion {
         this.id = id;
         this.description = description;
         this.discountPercent = discountPercent;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.dateRange = new DateRange(startDate, endDate);
         this.target = target;
     }
 
@@ -32,7 +32,7 @@ public class Promotion {
     }
 
     public State state() {
-        return new State(id.value(), description.value(), discountPercent.value(), startDate, endDate, target);
+        return new State(id.value(), description.value(), discountPercent.value(), dateRange.startDate(), dateRange.endDate(), target);
     }
 
     @Override
