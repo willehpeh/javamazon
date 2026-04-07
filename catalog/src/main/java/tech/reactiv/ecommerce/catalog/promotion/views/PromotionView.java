@@ -1,4 +1,4 @@
-package tech.reactiv.ecommerce.catalog.lookupproduct;
+package tech.reactiv.ecommerce.catalog.promotion.views;
 
 import tech.reactiv.ecommerce.catalog.promotion.PromotionDiscountPercent;
 import tech.reactiv.ecommerce.catalog.promotion.PromotionTarget;

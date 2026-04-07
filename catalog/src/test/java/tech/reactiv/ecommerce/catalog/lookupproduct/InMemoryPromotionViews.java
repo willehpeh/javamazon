@@ -1,5 +1,8 @@
 package tech.reactiv.ecommerce.catalog.lookupproduct;
 
+import tech.reactiv.ecommerce.catalog.promotion.views.PromotionView;
+import tech.reactiv.ecommerce.catalog.promotion.views.PromotionViews;
+
 import java.util.ArrayList;
 import java.util.List;
 

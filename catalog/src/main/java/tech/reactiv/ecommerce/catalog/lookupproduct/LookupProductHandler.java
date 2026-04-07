@@ -5,8 +5,11 @@ import tech.reactiv.ecommerce.catalog.category.CategoryId;
 import tech.reactiv.ecommerce.catalog.product.ProductId;
 import tech.reactiv.ecommerce.catalog.product.views.ProductView;
 import tech.reactiv.ecommerce.catalog.product.views.ProductViews;
+import tech.reactiv.ecommerce.catalog.promotion.views.PromotionView;
+import tech.reactiv.ecommerce.catalog.promotion.views.PromotionViews;
 import tech.reactiv.ecommerce.shared.mediator.QueryHandler;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.Optional;
@@ -24,7 +27,7 @@ public class LookupProductHandler implements QueryHandler<LookupProductRequest, 
         this.promotions = promotions;
     }
 
-    private static Predicate<PromotionView> promotionAppliesTo(ProductView product) {
+    private static Predicate<PromotionView> promotionAppliesTo(ProductView product, Clock clock) {
         return promotion -> promotion.dateRange().contains(LocalDate.now()) && promotion.promotionTarget().appliesTo(new ProductId(product.id()), new CategoryId(product.categoryId()));
     }
 
@@ -43,7 +46,7 @@ public class LookupProductHandler implements QueryHandler<LookupProductRequest, 
 
     private Optional<PromotionView> bestPromotionFor(ProductView product) {
         return promotions.all().stream()
-                .filter(promotionAppliesTo(product))
+                .filter(promotionAppliesTo(product, Clock.systemUTC()))
                 .max(descendingDiscountPercent());
     }
 }

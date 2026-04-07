@@ -10,6 +10,7 @@ import tech.reactiv.ecommerce.catalog.promotion.AllProducts;
 import tech.reactiv.ecommerce.catalog.promotion.ByCategory;
 import tech.reactiv.ecommerce.catalog.promotion.ByProducts;
 import tech.reactiv.ecommerce.catalog.promotion.PromotionDiscountPercent;
+import tech.reactiv.ecommerce.catalog.promotion.views.PromotionView;
 import tech.reactiv.ecommerce.common.DateRange;
 
 import java.time.LocalDate;
