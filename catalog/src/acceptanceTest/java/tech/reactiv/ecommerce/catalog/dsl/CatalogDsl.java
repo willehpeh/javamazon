@@ -2,6 +2,7 @@ package tech.reactiv.ecommerce.catalog.dsl;
 
 import org.springframework.stereotype.Component;
 import tech.reactiv.ecommerce.catalog.driver.CatalogDriver;
+import tech.reactiv.ecommerce.catalog.fixtures.CatalogFixtures;
 
 import java.util.UUID;
 import java.util.function.Consumer;
@@ -12,13 +13,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CatalogDsl {
 
     private final CatalogDriver driver;
+    private final CatalogFixtures fixtures;
 
-    CatalogDsl(CatalogDriver driver) {
+    CatalogDsl(CatalogDriver driver, CatalogFixtures fixtures) {
         this.driver = driver;
+        this.fixtures = fixtures;
     }
 
     public UUID givenCategory(String name) {
-        return driver.createCategory(name);
+        return fixtures.createCategory(name);
     }
 
     public UUID addProduct(Consumer<ProductBuilder> customizer) {
@@ -59,5 +62,11 @@ public class CatalogDsl {
     public void verifyProductCount(int expectedCount) {
         var products = driver.listProducts();
         assertThat(products).hasSize(expectedCount);
+    }
+
+    public UUID addPromotion(Consumer<PromotionBuilder> customizer) {
+        var builder = PromotionBuilder.withDefaults();
+        customizer.accept(builder);
+        return fixtures.schedulePromotion(builder.description(), builder.discountPercent(), builder.startDate(), builder.endDate(), builder.target());
     }
 }

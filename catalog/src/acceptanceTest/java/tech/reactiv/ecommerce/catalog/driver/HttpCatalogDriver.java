@@ -1,7 +1,6 @@
 package tech.reactiv.ecommerce.catalog.driver;
 
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.client.RestTestClient;
 import tech.reactiv.ecommerce.catalog.addproduct.AddProductCommand;
@@ -15,18 +14,9 @@ import java.util.UUID;
 class HttpCatalogDriver implements CatalogDriver {
 
     private final RestTestClient restClient;
-    private final JdbcTemplate jdbc;
 
-    HttpCatalogDriver(RestTestClient restClient, JdbcTemplate jdbc) {
+    HttpCatalogDriver(RestTestClient restClient) {
         this.restClient = restClient;
-        this.jdbc = jdbc;
-    }
-
-    @Override
-    public UUID createCategory(String name) {
-        var id = UUID.randomUUID();
-        jdbc.update("INSERT INTO category (id, name) VALUES (?, ?)", id, name);
-        return id;
     }
 
     @Override

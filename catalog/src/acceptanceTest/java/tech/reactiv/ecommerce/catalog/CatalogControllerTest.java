@@ -12,7 +12,7 @@ class CatalogControllerTest extends AcceptanceTest {
     @Test
     void createsAndRetrievesProduct() {
         var categoryId = catalog.givenCategory("Electronics");
-        var productId = catalog.addProduct(p -> p
+        var productId = catalog.addProduct(product -> product
                 .inCategory(categoryId)
                 .withName("Laptop")
                 .withDescription("A powerful laptop")
