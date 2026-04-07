@@ -1,9 +1,13 @@
 package tech.reactiv.ecommerce.catalog;
 
 import org.flywaydb.core.Flyway;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.junit.jupiter.Container;
@@ -16,6 +20,8 @@ import org.testcontainers.postgresql.PostgreSQLContainer;
 abstract class AcceptanceTest {
     @Container
     static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:17");
+    @Autowired
+    JdbcTemplate jdbcTemplate;
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
@@ -38,5 +44,10 @@ abstract class AcceptanceTest {
                 .dataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword())
                 .load()
                 .migrate();
+    }
+
+    @AfterEach
+    void tearDown() {
+        jdbcTemplate.execute("TRUNCATE product, category, promotion CASCADE");
     }
 }

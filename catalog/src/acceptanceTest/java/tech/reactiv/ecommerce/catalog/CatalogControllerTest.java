@@ -11,8 +11,9 @@ class CatalogControllerTest extends AcceptanceTest {
 
     @Test
     void createsAndRetrievesProduct() {
+        var categoryId = catalog.givenCategory("Electronics");
         var productId = catalog.addProduct(p -> p
-                .inCategory("Electronics")
+                .inCategory(categoryId)
                 .withName("Laptop")
                 .withDescription("A powerful laptop")
                 .withPrice("999.99"));
@@ -25,10 +26,10 @@ class CatalogControllerTest extends AcceptanceTest {
 
     @Test
     void retrievesAllProducts() {
-        catalog.addProduct(p -> {});
-        catalog.addProduct(p -> {});
-        catalog.addProduct(p -> {});
-        catalog.addProduct(p -> {});
+        catalog.addProduct();
+        catalog.addProduct();
+        catalog.addProduct();
+        catalog.addProduct();
 
         catalog.verifyProductCount(4);
     }

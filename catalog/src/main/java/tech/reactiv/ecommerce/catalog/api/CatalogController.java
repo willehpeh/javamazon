@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.*;
 import tech.reactiv.ecommerce.catalog.addproduct.AddProductCommand;
 import tech.reactiv.ecommerce.catalog.lookupproduct.LookupProductRequest;
 import tech.reactiv.ecommerce.catalog.product.views.ProductView;
+import tech.reactiv.ecommerce.catalog.search.SearchCatalogRequest;
 import tech.reactiv.ecommerce.shared.mediator.Mediator;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -19,6 +21,11 @@ public class CatalogController {
 
     public CatalogController(Mediator mediator) {
         this.mediator = mediator;
+    }
+
+    @GetMapping("products")
+    public ResponseEntity<List<ProductView>> allProducts() {
+        return ResponseEntity.ok(mediator.query(new SearchCatalogRequest()));
     }
 
     @PostMapping("products")
@@ -32,4 +39,5 @@ public class CatalogController {
         var productView = mediator.query(new LookupProductRequest(UUID.fromString(id)));
         return productView.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
+
 }

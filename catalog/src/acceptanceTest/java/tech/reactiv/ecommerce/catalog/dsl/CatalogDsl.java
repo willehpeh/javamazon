@@ -24,11 +24,16 @@ public class CatalogDsl {
     public UUID addProduct(Consumer<ProductBuilder> customizer) {
         var builder = ProductBuilder.withDefaults();
         customizer.accept(builder);
-        if (builder.category() != null) {
-            var categoryId = givenCategory(builder.category());
-            return driver.addProduct(builder.name(), builder.description(), builder.price(), categoryId);
+        if (builder.categoryId() == null) {
+            throw new IllegalStateException("Product must have a category");
         }
-        throw new IllegalStateException("Product must have a category");
+        return driver.addProduct(builder.name(), builder.description(), builder.price(), builder.categoryId());
+    }
+
+    public UUID addProduct() {
+        var categoryId = givenCategory(UUID.randomUUID().toString());
+        var builder = ProductBuilder.withDefaults();
+        return driver.addProduct(builder.name(), builder.description(), builder.price(), categoryId);
     }
 
     public void verifyProductExists(UUID productId) {
