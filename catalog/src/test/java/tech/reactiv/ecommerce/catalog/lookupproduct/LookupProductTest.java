@@ -13,6 +13,7 @@ import tech.reactiv.ecommerce.catalog.promotion.PromotionDiscountPercent;
 import tech.reactiv.ecommerce.catalog.promotion.views.PromotionView;
 import tech.reactiv.ecommerce.common.DateRange;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
@@ -22,7 +23,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class LookupProductTest {
     private final InMemoryProductViews views = new InMemoryProductViews();
     private final InMemoryPromotionViews promotions = new InMemoryPromotionViews();
-    private final LookupProductHandler handler = new LookupProductHandler(views, promotions);
+    private final LookupProductHandler handler = new LookupProductHandler(views, promotions, Clock.systemUTC());
 
     @Test
     void shouldLookupProductWithUnchangedPriceWhenNoPromotions() {

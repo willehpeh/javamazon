@@ -20,15 +20,18 @@ public class LookupProductHandler implements QueryHandler<LookupProductRequest, 
 
     private final ProductViews views;
     private final PromotionViews promotions;
+    private final Clock clock;
 
     public LookupProductHandler(ProductViews views,
-                                PromotionViews promotions) {
+                                PromotionViews promotions,
+                                Clock clock) {
         this.views = views;
         this.promotions = promotions;
+        this.clock = clock;
     }
 
     private static Predicate<PromotionView> promotionAppliesTo(ProductView product, Clock clock) {
-        return promotion -> promotion.dateRange().contains(LocalDate.now()) && promotion.promotionTarget().appliesTo(new ProductId(product.id()), new CategoryId(product.categoryId()));
+        return promotion -> promotion.dateRange().contains(LocalDate.now(clock)) && promotion.promotionTarget().appliesTo(new ProductId(product.id()), new CategoryId(product.categoryId()));
     }
 
     private static Comparator<PromotionView> descendingDiscountPercent() {
@@ -46,7 +49,7 @@ public class LookupProductHandler implements QueryHandler<LookupProductRequest, 
 
     private Optional<PromotionView> bestPromotionFor(ProductView product) {
         return promotions.all().stream()
-                .filter(promotionAppliesTo(product, Clock.systemUTC()))
+                .filter(promotionAppliesTo(product, clock))
                 .max(descendingDiscountPercent());
     }
 }
