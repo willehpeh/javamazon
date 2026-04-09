@@ -1,6 +1,7 @@
 package tech.reactiv.ecommerce.catalog.dsl;
 
 import tech.reactiv.ecommerce.catalog.product.views.ProductView;
+import tech.reactiv.ecommerce.common.Money;
 
 import java.util.UUID;
 
@@ -16,7 +17,7 @@ public record ProductViewAssertions(ProductView productView) {
     }
 
     public void hasPrice(String price) {
-        assertThat(productView.price().value()).isEqualTo(price);
+        assertThat(productView.price()).isEqualTo(new Money(price));
     }
 
     public void isInCategory(UUID category) {
