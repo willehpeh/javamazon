@@ -40,6 +40,13 @@ class HttpCatalogDriver implements CatalogDriver {
     }
 
     @Override
+    public void expectNoProduct(UUID productId) {
+        restClient.get().uri("/catalog/products/{id}", productId)
+                .exchange()
+                .expectStatus().isNotFound();
+    }
+
+    @Override
     public List<ProductView> listProducts() {
         return restClient.get().uri("/catalog/products")
                 .exchange()

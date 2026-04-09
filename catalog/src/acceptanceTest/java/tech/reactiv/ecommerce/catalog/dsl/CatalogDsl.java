@@ -21,10 +21,16 @@ public class CatalogDsl {
     }
 
     public UUID givenCategory(String name) {
-        return fixtures.createCategory(name);
+        return fixtures.insertCategory(name);
     }
 
-    public UUID addProduct(Consumer<ProductBuilder> customizer) {
+    public UUID givenProduct(Consumer<ProductBuilder> customizer) {
+        var builder = ProductBuilder.withDefaults();
+        customizer.accept(builder);
+        return fixtures.insertProduct(builder.name(), builder.description(), builder.price(), builder.categoryId());
+    }
+
+    public UUID whenProductAdded(Consumer<ProductBuilder> customizer) {
         var builder = ProductBuilder.withDefaults();
         customizer.accept(builder);
         if (builder.categoryId() == null) {
@@ -33,40 +39,23 @@ public class CatalogDsl {
         return driver.addProduct(builder.name(), builder.description(), builder.price(), builder.categoryId());
     }
 
-    public UUID addProduct() {
-        var categoryId = givenCategory(UUID.randomUUID().toString());
-        var builder = ProductBuilder.withDefaults();
-        return driver.addProduct(builder.name(), builder.description(), builder.price(), categoryId);
-    }
-
-    public void verifyProductExists(UUID productId) {
-        assertThat(driver.lookupProduct(productId)).isNotNull();
-    }
-
-    public void verifyProductHasName(UUID productId, String expectedName) {
-        assertThat(driver.lookupProduct(productId).name()).isEqualTo(expectedName);
-    }
-
-    public void verifyProductHasDescription(UUID productId, String expectedDescription) {
-        assertThat(driver.lookupProduct(productId).description()).isEqualTo(expectedDescription);
-    }
-
-    public void verifyProductHasPrice(UUID productId, String expectedPrice) {
-        assertThat(driver.lookupProduct(productId).price().value()).isEqualByComparingTo(expectedPrice);
-    }
-
-    public void verifyProductIsActive(UUID productId) {
-        assertThat(driver.lookupProduct(productId).active()).isTrue();
-    }
-
-    public void verifyProductCount(int expectedCount) {
+    public void thenTotalNumberOfProductsIs(int expectedCount) {
         var products = driver.listProducts();
         assertThat(products).hasSize(expectedCount);
     }
 
-    public UUID addPromotion(Consumer<PromotionBuilder> customizer) {
+    public void thenProductCanBeRetrieved(UUID productId, Consumer<ProductViewAssertions> consumer) {
+        var product = driver.lookupProduct(productId);
+        consumer.accept(new ProductViewAssertions(product));
+    }
+
+    public void thenProductDoesNotExist(UUID productId) {
+        driver.expectNoProduct(productId);
+    }
+
+    public UUID givenPromotion(Consumer<PromotionBuilder> customizer) {
         var builder = PromotionBuilder.withDefaults();
         customizer.accept(builder);
-        return fixtures.schedulePromotion(builder.description(), builder.discountPercent(), builder.startDate(), builder.endDate(), builder.target());
+        return fixtures.insertPromotion(builder.description(), builder.discountPercent(), builder.startDate(), builder.endDate(), builder.target());
     }
 }

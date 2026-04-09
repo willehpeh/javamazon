@@ -12,25 +12,27 @@ class CatalogControllerTest extends AcceptanceTest {
     @Test
     void createsAndRetrievesProduct() {
         var categoryId = catalog.givenCategory("Electronics");
-        var productId = catalog.addProduct(product -> product
+        var productId = catalog.whenProductAdded(product -> product
                 .inCategory(categoryId)
                 .withName("Laptop")
                 .withDescription("A powerful laptop")
                 .withPrice("999.99"));
-        catalog.verifyProductExists(productId);
-        catalog.verifyProductHasName(productId, "Laptop");
-        catalog.verifyProductHasDescription(productId, "A powerful laptop");
-        catalog.verifyProductHasPrice(productId, "999.99");
-        catalog.verifyProductIsActive(productId);
+        catalog.thenProductCanBeRetrieved(productId, p -> {
+            p.hasName("Laptop");
+            p.hasDescription("A powerful laptop");
+            p.hasPrice("999.99");
+            p.isInCategory(categoryId);
+        });
     }
 
     @Test
     void retrievesAllProducts() {
-        catalog.addProduct();
-        catalog.addProduct();
-        catalog.addProduct();
-        catalog.addProduct();
+        var categoryId = catalog.givenCategory("Electronics");
+        catalog.givenProduct(p -> p.inCategory(categoryId));
+        catalog.givenProduct(p -> p.inCategory(categoryId));
+        catalog.givenProduct(p -> p.inCategory(categoryId));
+        catalog.givenProduct(p -> p.inCategory(categoryId));
 
-        catalog.verifyProductCount(4);
+        catalog.thenTotalNumberOfProductsIs(4);
     }
 }

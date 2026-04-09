@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public interface CatalogFixtures {
-    UUID createCategory(String name);
-    UUID schedulePromotion(String description, int discountPercent, LocalDate startDate, LocalDate endDate, PromotionTarget target);
+    UUID insertCategory(String name);
+    UUID insertPromotion(String description, int discountPercent, LocalDate startDate, LocalDate endDate, PromotionTarget target);
+    UUID insertProduct(String name, String description, String price, UUID uuid);
 }

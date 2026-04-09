@@ -6,6 +6,7 @@ import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingExcept
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import tech.reactiv.ecommerce.catalog.promotion.PromotionTarget;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -20,18 +21,28 @@ class JdbcCatalogFixtures implements CatalogFixtures {
     }
 
     @Override
-    public UUID createCategory(String name) {
+    public UUID insertCategory(String name) {
         var id = UUID.randomUUID();
         jdbc.update("INSERT INTO category (id, name) VALUES (?, ?)", id, name);
         return id;
     }
 
     @Override
-    public UUID schedulePromotion(String description, int discountPercent, LocalDate startDate, LocalDate endDate, PromotionTarget target) {
+    public UUID insertPromotion(String description, int discountPercent, LocalDate startDate, LocalDate endDate, PromotionTarget target) {
         var id = UUID.randomUUID();
         jdbc.update(
                 "INSERT INTO promotion (id, description, discount_percentage, start_date, end_date, target_data) VALUES (?, ?, ?, ?, ?, ?::jsonb)",
                 id, description, discountPercent, startDate, endDate, toJson(target)
+        );
+        return id;
+    }
+
+    @Override
+    public UUID insertProduct(String name, String description, String price, UUID categoryId) {
+        var id = UUID.randomUUID();
+        jdbc.update(
+                "INSERT INTO product (id, name, description, price, category_id, active) VALUES (?, ?, ?, ?, ?, ?)",
+                id, name, description, new BigDecimal(price), categoryId, true
         );
         return id;
     }

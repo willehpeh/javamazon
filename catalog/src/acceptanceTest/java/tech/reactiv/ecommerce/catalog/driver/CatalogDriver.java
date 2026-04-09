@@ -8,5 +8,6 @@ import java.util.UUID;
 public interface CatalogDriver {
     UUID addProduct(String name, String description, String price, UUID categoryId);
     ProductView lookupProduct(UUID productId);
+    void expectNoProduct(UUID productId);
     List<ProductView> listProducts();
 }
