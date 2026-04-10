@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import tech.reactiv.ecommerce.catalog.addproduct.AddProductCommand;
 import tech.reactiv.ecommerce.catalog.lookupproduct.LookupProductRequest;
 import tech.reactiv.ecommerce.catalog.product.views.ProductView;
+import tech.reactiv.ecommerce.catalog.schedulepromotion.SchedulePromotionCommand;
 import tech.reactiv.ecommerce.catalog.search.SearchCatalogRequest;
 import tech.reactiv.ecommerce.shared.mediator.Mediator;
 
@@ -38,6 +39,12 @@ public class CatalogController {
     public ResponseEntity<ProductView> lookupProduct(@PathVariable String id) {
         var productView = mediator.query(new LookupProductRequest(UUID.fromString(id)));
         return productView.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("promotions")
+    public ResponseEntity<Void> schedulePromotion(@Valid @RequestBody SchedulePromotionCommand command) {
+        mediator.command(command);
+        return ResponseEntity.created(URI.create("/catalog/promotions/" + command.promotionId())).build();
     }
 
 }

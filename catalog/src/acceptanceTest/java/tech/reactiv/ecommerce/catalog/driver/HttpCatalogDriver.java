@@ -5,8 +5,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.client.RestTestClient;
 import tech.reactiv.ecommerce.catalog.addproduct.AddProductCommand;
 import tech.reactiv.ecommerce.catalog.product.views.ProductView;
+import tech.reactiv.ecommerce.catalog.promotion.PromotionTarget;
+import tech.reactiv.ecommerce.catalog.schedulepromotion.SchedulePromotionCommand;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,5 +57,13 @@ class HttpCatalogDriver implements CatalogDriver {
                 .expectBody(new ParameterizedTypeReference<List<ProductView>>() {})
                 .returnResult()
                 .getResponseBody();
+    }
+
+    @Override
+    public void schedulePromotion(String description, int discountPercent, LocalDate startDate, LocalDate endDate, PromotionTarget target) {
+        var command = new SchedulePromotionCommand(UUID.randomUUID(), description, discountPercent, startDate, endDate, target);
+        restClient.post().uri("/catalog/promotions").body(command)
+                .exchange()
+                .expectStatus().isCreated();
     }
 }

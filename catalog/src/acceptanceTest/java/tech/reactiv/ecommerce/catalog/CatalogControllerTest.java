@@ -6,8 +6,6 @@ import tech.reactiv.ecommerce.catalog.category.CategoryId;
 import tech.reactiv.ecommerce.catalog.dsl.CatalogDsl;
 import tech.reactiv.ecommerce.catalog.promotion.ByCategory;
 
-import java.time.LocalDate;
-
 class CatalogControllerTest extends AcceptanceTest {
 
     @Autowired
@@ -44,9 +42,7 @@ class CatalogControllerTest extends AcceptanceTest {
     void retrievesProductWithPromotionalPrice() {
         var categoryId = catalog.givenCategory("Electronics");
         var productId = catalog.givenProduct(p -> p.inCategory(categoryId).withPrice("100.00"));
-        catalog.givenPromotion(p -> p
-                .withStartDate(LocalDate.now().minusDays(1))
-                .withEndDate(LocalDate.now().plusDays(1))
+        catalog.whenPromotionScheduled(p -> p
                 .withDiscountPercent(50)
                 .withTarget(new ByCategory(new CategoryId(categoryId)))
         );

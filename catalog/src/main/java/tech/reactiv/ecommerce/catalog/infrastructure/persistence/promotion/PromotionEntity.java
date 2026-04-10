@@ -5,6 +5,7 @@ import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.ColumnTransformer;
 import tech.reactiv.ecommerce.catalog.promotion.*;
 
 import java.time.LocalDate;
@@ -31,6 +32,7 @@ class PromotionEntity {
 
     @Convert(converter = PromotionTargetConverter.class)
     @Column(name = "target_data", columnDefinition = "jsonb")
+    @ColumnTransformer(write = "?::jsonb")
     private PromotionTarget targetData;
 
     protected PromotionEntity() {

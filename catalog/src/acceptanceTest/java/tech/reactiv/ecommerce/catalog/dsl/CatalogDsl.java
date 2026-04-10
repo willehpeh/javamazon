@@ -58,4 +58,10 @@ public class CatalogDsl {
         customizer.accept(builder);
         return fixtures.insertPromotion(builder.description(), builder.discountPercent(), builder.startDate(), builder.endDate(), builder.target());
     }
+
+    public void whenPromotionScheduled(Consumer<PromotionBuilder> customizer) {
+        var builder = PromotionBuilder.withDefaults();
+        customizer.accept(builder);
+        driver.schedulePromotion(builder.description(), builder.discountPercent(), builder.startDate(), builder.endDate(), builder.target());
+    }
 }
