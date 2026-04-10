@@ -1,52 +1,37 @@
 package tech.reactiv.ecommerce.catalog;
 
-import org.flywaydb.core.Flyway;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.postgresql.PostgreSQLContainer;
+
+import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Testcontainers
 @AutoConfigureRestTestClient
 abstract class AcceptanceTest {
-    @Container
-    static PostgreSQLContainer postgres = new PostgreSQLContainer("postgres:17");
     @Autowired
     JdbcTemplate jdbcTemplate;
 
     @DynamicPropertySource
     static void configureProperties(DynamicPropertyRegistry registry) {
-        addDbContainerPropsToRegistry(registry);
-    }
-
-    private static void addDbContainerPropsToRegistry(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", postgres::getJdbcUrl);
-        registry.add("spring.datasource.username", postgres::getUsername);
-        registry.add("spring.datasource.password", postgres::getPassword);
-    }
-
-    @BeforeAll
-    static void setUp() {
-        configureFlywayAndRunMigrations();
-    }
-
-    private static void configureFlywayAndRunMigrations() {
-        Flyway.configure()
-                .dataSource(postgres.getJdbcUrl(), postgres.getUsername(), postgres.getPassword())
-                .load()
-                .migrate();
+        registry.add("spring.datasource.url", SharedPostgres.INSTANCE::getJdbcUrl);
+        registry.add("spring.datasource.username", SharedPostgres.INSTANCE::getUsername);
+        registry.add("spring.datasource.password", SharedPostgres.INSTANCE::getPassword);
     }
 
     @AfterEach
     void tearDown() {
-        jdbcTemplate.execute("TRUNCATE product, category, promotion CASCADE");
+        List<String> tables = jdbcTemplate.queryForList(
+                "SELECT table_name FROM information_schema.tables " +
+                        "WHERE table_schema = 'public' AND table_name != 'flyway_schema_history'",
+                String.class
+        );
+        if (!tables.isEmpty()) {
+            jdbcTemplate.execute("TRUNCATE " + String.join(", ", tables) + " CASCADE");
+        }
     }
 }
