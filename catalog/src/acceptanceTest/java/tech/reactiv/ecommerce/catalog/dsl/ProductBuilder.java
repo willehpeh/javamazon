@@ -7,7 +7,7 @@ public class ProductBuilder {
     private String name = "Default Product";
     private String description = "A default product description";
     private String price = "10.00";
-    private UUID categoryId;
+    private UUID categoryId = UUID.randomUUID();
 
     static ProductBuilder withDefaults() {
         return new ProductBuilder();

@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 import tech.reactiv.ecommerce.catalog.driver.CatalogDriver;
 import tech.reactiv.ecommerce.catalog.fixtures.CatalogFixtures;
 
+import tech.reactiv.ecommerce.catalog.product.views.ProductView;
+
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -39,9 +41,11 @@ public class CatalogDsl {
         return driver.addProduct(builder.name(), builder.description(), builder.price(), builder.categoryId());
     }
 
-    public void thenTotalNumberOfProductsIs(int expectedCount) {
+    public void thenAllProductsAre(UUID... expectedIds) {
         var products = driver.listProducts();
-        assertThat(products).hasSize(expectedCount);
+        assertThat(products)
+                .extracting(ProductView::id)
+                .containsExactlyInAnyOrder(expectedIds);
     }
 
     public void thenProductCanBeRetrieved(UUID productId, Consumer<ProductViewAssertions> consumer) {

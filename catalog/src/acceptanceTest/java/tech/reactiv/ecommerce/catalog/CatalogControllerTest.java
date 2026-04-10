@@ -28,12 +28,11 @@ class CatalogControllerTest extends AcceptanceTest {
     @Test
     void retrievesAllProducts() {
         var categoryId = catalog.givenCategory("Electronics");
-        catalog.givenProduct(p -> p.inCategory(categoryId));
-        catalog.givenProduct(p -> p.inCategory(categoryId));
-        catalog.givenProduct(p -> p.inCategory(categoryId));
-        catalog.givenProduct(p -> p.inCategory(categoryId));
+        var laptop = catalog.givenProduct(p -> p.inCategory(categoryId));
+        var phone = catalog.givenProduct(p -> p.inCategory(categoryId));
+        var tablet = catalog.givenProduct(p -> p.inCategory(categoryId));
 
-        catalog.thenTotalNumberOfProductsIs(4);
+        catalog.thenAllProductsAre(laptop, phone, tablet);
     }
 
     @Test
