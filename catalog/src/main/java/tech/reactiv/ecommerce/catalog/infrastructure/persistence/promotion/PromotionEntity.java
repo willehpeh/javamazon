@@ -1,11 +1,10 @@
 package tech.reactiv.ecommerce.catalog.infrastructure.persistence.promotion;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 import tech.reactiv.ecommerce.catalog.promotion.*;
 
 import java.time.LocalDate;
@@ -30,7 +29,7 @@ class PromotionEntity {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-    @JdbcTypeCode(SqlTypes.JSON)
+    @Convert(converter = PromotionTargetConverter.class)
     @Column(name = "target_data", columnDefinition = "jsonb")
     private PromotionTarget targetData;
 

@@ -1,9 +1,9 @@
 package tech.reactiv.ecommerce.catalog.fixtures;
 
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
-import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import tech.reactiv.ecommerce.catalog.promotion.PromotionTarget;
 
 import java.math.BigDecimal;
@@ -14,10 +14,11 @@ import java.util.UUID;
 class JdbcCatalogFixtures implements CatalogFixtures {
 
     private final JdbcTemplate jdbc;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
-    JdbcCatalogFixtures(JdbcTemplate jdbc) {
+    JdbcCatalogFixtures(JdbcTemplate jdbc, ObjectMapper objectMapper) {
         this.jdbc = jdbc;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -50,7 +51,7 @@ class JdbcCatalogFixtures implements CatalogFixtures {
     private String toJson(PromotionTarget target) {
         try {
             return objectMapper.writeValueAsString(target);
-        } catch (JsonProcessingException e) {
+        } catch (JacksonException e) {
             throw new RuntimeException(e);
         }
     }
