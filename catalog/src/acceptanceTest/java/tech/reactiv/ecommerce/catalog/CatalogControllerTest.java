@@ -2,9 +2,7 @@ package tech.reactiv.ecommerce.catalog;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import tech.reactiv.ecommerce.catalog.category.CategoryId;
 import tech.reactiv.ecommerce.catalog.dsl.CatalogDsl;
-import tech.reactiv.ecommerce.catalog.promotion.ByCategory;
 
 class CatalogControllerTest extends AcceptanceTest {
 
@@ -44,7 +42,7 @@ class CatalogControllerTest extends AcceptanceTest {
         var productId = catalog.givenProduct(p -> p.inCategory(categoryId).withPrice("100.00"));
         catalog.whenPromotionScheduled(p -> p
                 .withDiscountPercent(50)
-                .withTarget(new ByCategory(new CategoryId(categoryId)))
+                .targetingCategory(categoryId)
         );
 
         catalog.thenProductCanBeRetrieved(productId, p -> p.hasPrice("50.00"));

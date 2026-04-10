@@ -1,9 +1,12 @@
 package tech.reactiv.ecommerce.catalog.dsl;
 
+import tech.reactiv.ecommerce.catalog.category.CategoryId;
 import tech.reactiv.ecommerce.catalog.promotion.AllProducts;
+import tech.reactiv.ecommerce.catalog.promotion.ByCategory;
 import tech.reactiv.ecommerce.catalog.promotion.PromotionTarget;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class PromotionBuilder {
 
@@ -17,28 +20,13 @@ public class PromotionBuilder {
         return new PromotionBuilder();
     }
 
-    public PromotionBuilder withDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
     public PromotionBuilder withDiscountPercent(int discountPercent) {
         this.discountPercent = discountPercent;
         return this;
     }
 
-    public PromotionBuilder withStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-        return this;
-    }
-
-    public PromotionBuilder withEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-        return this;
-    }
-
-    public PromotionBuilder withTarget(PromotionTarget target) {
-        this.target = target;
+    public PromotionBuilder targetingCategory(UUID categoryId) {
+        this.target = new ByCategory(new CategoryId(categoryId));
         return this;
     }
 
