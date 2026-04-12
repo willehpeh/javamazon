@@ -3,14 +3,16 @@ package tech.reactiv.ecommerce.catalog.driver;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.client.RestTestClient;
-import tech.reactiv.ecommerce.catalog.addproduct.AddProductCommand;
+import tech.reactiv.ecommerce.catalog.product.ProductId;
 import tech.reactiv.ecommerce.catalog.product.views.ProductView;
+import tech.reactiv.ecommerce.catalog.promotion.AllProducts;
+import tech.reactiv.ecommerce.catalog.promotion.ByCategory;
+import tech.reactiv.ecommerce.catalog.promotion.ByProducts;
 import tech.reactiv.ecommerce.catalog.promotion.PromotionTarget;
-import tech.reactiv.ecommerce.catalog.schedulepromotion.SchedulePromotionCommand;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Component
@@ -25,8 +27,12 @@ class HttpCatalogDriver implements CatalogDriver {
     @Override
     public UUID addProduct(String name, String description, String price, UUID categoryId) {
         var productId = UUID.randomUUID();
-        var command = new AddProductCommand(productId, name, description, new BigDecimal(price), categoryId);
-        restClient.post().uri("/catalog/products").body(command)
+        restClient.post().uri("/catalog/products").body(Map.of(
+                        "productId", productId,
+                        "productName", name,
+                        "description", description,
+                        "price", price,
+                        "categoryId", categoryId))
                 .exchange()
                 .expectStatus().isCreated();
         return productId;
@@ -61,10 +67,23 @@ class HttpCatalogDriver implements CatalogDriver {
 
     @Override
     public void schedulePromotion(String description, int discountPercent, LocalDate startDate, LocalDate endDate, PromotionTarget target) {
-        var command = new SchedulePromotionCommand(UUID.randomUUID(), description, discountPercent, startDate, endDate, target);
-        restClient.post().uri("/catalog/promotions").body(command)
+        restClient.post().uri("/catalog/promotions").body(Map.of(
+                        "promotionId", UUID.randomUUID(),
+                        "description", description,
+                        "discountPercent", discountPercent,
+                        "startDate", startDate,
+                        "endDate", endDate,
+                        "target", toTargetMap(target)))
                 .exchange()
                 .expectStatus().isCreated();
+    }
+
+    private Map<String, Object> toTargetMap(PromotionTarget target) {
+        return switch (target) {
+            case AllProducts _ -> Map.of("type", "ALL_PRODUCTS");
+            case ByCategory byCategory -> Map.of("type", "BY_CATEGORY", "categoryId", byCategory.categoryId().value());
+            case ByProducts byProducts -> Map.of("type", "BY_PRODUCTS", "productIds", byProducts.productIds().stream().map(ProductId::value).toList());
+        };
     }
 
     @Override
