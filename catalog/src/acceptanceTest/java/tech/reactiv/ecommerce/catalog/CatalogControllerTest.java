@@ -3,6 +3,7 @@ package tech.reactiv.ecommerce.catalog;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import tech.reactiv.ecommerce.catalog.dsl.CatalogDsl;
+import tech.reactiv.ecommerce.catalog.product.ProductId;
 
 class CatalogControllerTest extends AcceptanceTest {
 
@@ -23,6 +24,12 @@ class CatalogControllerTest extends AcceptanceTest {
                 .hasPrice("999.99")
                 .isInCategory(categoryId)
         );
+    }
+
+    @Test
+    void failsWhenProductNotFound() {
+        var productId = ProductId.create();
+        catalog.thenProductDoesNotExist(productId.value());
     }
 
     @Test
