@@ -9,6 +9,9 @@ public class InMemoryProducts implements Products {
 
     @Override
     public void add(Product product) {
+        if (list.containsKey(product.id())) {
+            throw new IllegalStateException("Product already exists: " + product.id());
+        }
         list.put(product.id(), product);
     }
 
