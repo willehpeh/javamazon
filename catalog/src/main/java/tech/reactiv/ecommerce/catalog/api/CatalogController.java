@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.reactiv.ecommerce.catalog.addproduct.AddProductCommand;
+import tech.reactiv.ecommerce.catalog.discontinueproduct.DiscontinueProductCommand;
 import tech.reactiv.ecommerce.catalog.lookupproduct.LookupProductRequest;
 import tech.reactiv.ecommerce.catalog.product.views.ProductView;
 import tech.reactiv.ecommerce.catalog.schedulepromotion.SchedulePromotionCommand;
@@ -39,6 +40,12 @@ public class CatalogController {
     public ResponseEntity<ProductView> lookupProduct(@PathVariable String id) {
         var productView = mediator.query(new LookupProductRequest(UUID.fromString(id)));
         return productView.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping("products/{id}/discontinue")
+    public ResponseEntity<Void> discontinueProduct(@PathVariable UUID id) {
+        mediator.command(new DiscontinueProductCommand(id));
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("promotions")

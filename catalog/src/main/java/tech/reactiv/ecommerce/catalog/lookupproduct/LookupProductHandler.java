@@ -41,6 +41,7 @@ public class LookupProductHandler implements QueryHandler<LookupProductRequest, 
     public Optional<ProductView> handle(LookupProductRequest request) {
         var id = new ProductId(request.productId());
         return views.withId(id)
+                .filter(ProductView::active)
                 .map(product -> bestPromotionFor(product)
                         .map(promotion -> product.withPrice(promotion.applyTo(product.price())))
                         .orElse(product)

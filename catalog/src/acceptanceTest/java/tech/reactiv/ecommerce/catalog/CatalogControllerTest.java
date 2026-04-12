@@ -53,4 +53,12 @@ class CatalogControllerTest extends AcceptanceTest {
 
         catalog.thenProductCanBeRetrieved(productId, p -> p.hasPrice("50.00"));
     }
+
+    @Test
+    void discontinuesProduct() {
+        var categoryId = catalog.givenCategory("Electronics");
+        var productId = catalog.givenProduct(p -> p.inCategory(categoryId));
+        catalog.whenProductDiscontinued(productId);
+        catalog.thenProductDoesNotExist(productId);
+    }
 }

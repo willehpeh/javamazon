@@ -66,4 +66,11 @@ class HttpCatalogDriver implements CatalogDriver {
                 .exchange()
                 .expectStatus().isCreated();
     }
+
+    @Override
+    public void discontinueProduct(UUID productId) {
+        restClient.post().uri("/catalog/products/{id}/discontinue", productId)
+                .exchange()
+                .expectStatus().isOk();
+    }
 }
