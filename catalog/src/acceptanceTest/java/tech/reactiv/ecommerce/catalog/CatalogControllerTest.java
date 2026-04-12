@@ -43,12 +43,36 @@ class CatalogControllerTest extends AcceptanceTest {
     }
 
     @Test
-    void retrievesProductWithPromotionalPrice() {
+    void retrievesProductWithCategoryPromotionalPrice() {
         var categoryId = catalog.givenCategory("Electronics");
         var productId = catalog.givenProduct(p -> p.inCategory(categoryId).withPrice("100.00"));
         catalog.whenPromotionScheduled(p -> p
                 .withDiscountPercent(50)
                 .targetingCategory(categoryId)
+        );
+
+        catalog.thenProductCanBeRetrieved(productId, p -> p.hasPrice("50.00"));
+    }
+
+    @Test
+    void retrievesProductWithProductPromotionalPrice() {
+        var categoryId = catalog.givenCategory("Electronics");
+        var productId = catalog.givenProduct(p -> p.inCategory(categoryId).withPrice("100.00"));
+        catalog.whenPromotionScheduled(p -> p
+                .withDiscountPercent(50)
+                .targetingProduct(productId)
+        );
+
+        catalog.thenProductCanBeRetrieved(productId, p -> p.hasPrice("50.00"));
+    }
+
+    @Test
+    void retrievesProductWithGlobalPromotionalPrice() {
+        var categoryId = catalog.givenCategory("Electronics");
+        var productId = catalog.givenProduct(p -> p.inCategory(categoryId).withPrice("100.00"));
+        catalog.whenPromotionScheduled(p -> p
+                .withDiscountPercent(50)
+                .targetingAllProducts()
         );
 
         catalog.thenProductCanBeRetrieved(productId, p -> p.hasPrice("50.00"));

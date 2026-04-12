@@ -1,11 +1,14 @@
 package tech.reactiv.ecommerce.catalog.dsl;
 
 import tech.reactiv.ecommerce.catalog.category.CategoryId;
+import tech.reactiv.ecommerce.catalog.product.ProductId;
 import tech.reactiv.ecommerce.catalog.promotion.AllProducts;
 import tech.reactiv.ecommerce.catalog.promotion.ByCategory;
+import tech.reactiv.ecommerce.catalog.promotion.ByProducts;
 import tech.reactiv.ecommerce.catalog.promotion.PromotionTarget;
 
 import java.time.LocalDate;
+import java.util.Set;
 import java.util.UUID;
 
 public class PromotionBuilder {
@@ -27,6 +30,16 @@ public class PromotionBuilder {
 
     public PromotionBuilder targetingCategory(UUID categoryId) {
         this.target = new ByCategory(new CategoryId(categoryId));
+        return this;
+    }
+
+    public PromotionBuilder targetingProduct(UUID productId) {
+        this.target = new ByProducts(Set.of(new ProductId(productId)));
+        return this;
+    }
+
+    public PromotionBuilder targetingAllProducts() {
+        this.target = new AllProducts();
         return this;
     }
 
