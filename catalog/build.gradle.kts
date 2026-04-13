@@ -10,6 +10,10 @@ dependencies {
     api(project(":common"))
     api(project(":shared"))
     implementation(libs.spring.boot.starter.web)
+    implementation(platform(libs.opentelemetry.bom))
+    implementation("io.opentelemetry:opentelemetry-api")
+    testImplementation("io.opentelemetry:opentelemetry-sdk")
+    testImplementation("io.opentelemetry:opentelemetry-exporter-logging")
 }
 
 description = "catalog"
