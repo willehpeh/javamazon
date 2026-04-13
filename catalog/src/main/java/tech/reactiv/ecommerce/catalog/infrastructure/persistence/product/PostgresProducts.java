@@ -33,7 +33,7 @@ class PostgresProducts implements Products {
     }
 
     @Override
-    public boolean exists(ProductId id) {
+    public boolean contains(ProductId id) {
         return jpaProducts.existsById(id.value());
     }
 }

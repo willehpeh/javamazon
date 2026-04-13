@@ -12,6 +12,10 @@ public record ProductPrice(Money value) {
         }
     }
 
+    public ProductPrice(BigDecimal value) {
+        this(new Money(value));
+    }
+
     public ProductPrice(String value) {
         this(new Money(value));
     }

@@ -9,5 +9,5 @@ public interface Products {
 
     Optional<Product> productWithId(ProductId id);
 
-    boolean exists(ProductId id);
+    boolean contains(ProductId id);
 }

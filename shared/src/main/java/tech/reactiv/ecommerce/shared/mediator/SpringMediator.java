@@ -1,5 +1,9 @@
 package tech.reactiv.ecommerce.shared.mediator;
 
+import io.opentelemetry.api.GlobalOpenTelemetry;
+import io.opentelemetry.api.trace.StatusCode;
+import io.opentelemetry.api.trace.Tracer;
+import io.opentelemetry.context.Scope;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.ParameterizedType;
@@ -13,6 +17,7 @@ import java.util.stream.Stream;
 @Component
 public class SpringMediator implements Mediator {
 
+    private final Tracer tracer = GlobalOpenTelemetry.getTracer("mediator");
     private final Map<Class<?>, CommandHandler<?>> commandHandlers = new HashMap<>();
     private final Map<Class<?>, QueryHandler<?, ?>> queryHandlers = new HashMap<>();
 
@@ -47,7 +52,18 @@ public class SpringMediator implements Mediator {
         if (handler == null) {
             throw new IllegalStateException("No handler found for command " + command.getClass().getName());
         }
-        handler.handle(command);
+        var span = tracer.spanBuilder(command.getClass().getSimpleName())
+                .setAttribute("handler.type", "command")
+                .startSpan();
+        try (Scope ignored = span.makeCurrent()) {
+            handler.handle(command);
+        } catch (Exception e) {
+            span.setStatus(StatusCode.ERROR, e.getMessage());
+            span.recordException(e);
+            throw e;
+        } finally {
+            span.end();
+        }
     }
 
     @Override
@@ -56,7 +72,18 @@ public class SpringMediator implements Mediator {
         if (handler == null) {
             throw new IllegalStateException("No handler found for query " + query.getClass().getName());
         }
-        return handler.handle(query);
+        var span = tracer.spanBuilder(query.getClass().getSimpleName())
+                .setAttribute("handler.type", "query")
+                .startSpan();
+        try (Scope ignored = span.makeCurrent()) {
+            return handler.handle(query);
+        } catch (Exception e) {
+            span.setStatus(StatusCode.ERROR, e.getMessage());
+            span.recordException(e);
+            throw e;
+        } finally {
+            span.end();
+        }
     }
 
     private boolean commandHandlerAlreadyRegisteredFor(Class<?> command) {

@@ -34,12 +34,12 @@ public abstract class ProductsContractTest {
         var id = ProductId.create();
         products.add(TestProduct.basic(id));
 
-        assertThat(products.exists(id)).isTrue();
+        assertThat(products.contains(id)).isTrue();
     }
 
     @Test
     void shouldNotExistForUnknownId() {
-        assertThat(products.exists(ProductId.create())).isFalse();
+        assertThat(products.contains(ProductId.create())).isFalse();
     }
 
     @Test
@@ -71,7 +71,7 @@ public abstract class ProductsContractTest {
         product.reprice(new ProductPrice(new tech.reactiv.ecommerce.common.Money("50.00")));
         products.modify(product);
 
-        assertThat(products.exists(id)).isTrue();
+        assertThat(products.contains(id)).isTrue();
     }
 
     @Test

@@ -26,7 +26,7 @@ public class InMemoryProducts implements Products {
     }
 
     @Override
-    public boolean exists(ProductId id) {
+    public boolean contains(ProductId id) {
         return list.containsKey(id);
     }
 }
