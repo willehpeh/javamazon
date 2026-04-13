@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.stream.Stream;
 
 @Component
@@ -48,39 +49,30 @@ public class SpringMediator implements Mediator {
 
     @Override
     public void command(Command command) {
-        var handler = commandHandlerFor(command);
-        if (handler == null) {
-            throw new IllegalStateException("No handler found for command " + command.getClass().getName());
-        }
-        var span = tracer.spanBuilder(command.getClass().getSimpleName())
-                .setAttribute("handler.type", "command")
-                .startSpan();
-        try (Scope ignored = span.makeCurrent()) {
-            handler.handle(command);
-        } catch (Exception e) {
-            span.setStatus(StatusCode.ERROR, e.getMessage());
-            span.recordException(e);
-            throw e;
-        } finally {
-            span.end();
-        }
+        traced(command.getClass().getSimpleName(),
+                () -> commandHandlerFor(command).handle(command));
     }
 
     @Override
     public <R> R query(Query<R> query) {
-        var handler = queryHandlerFor(query);
-        if (handler == null) {
-            throw new IllegalStateException("No handler found for query " + query.getClass().getName());
-        }
-        var span = tracer.spanBuilder(query.getClass().getSimpleName())
+        return traced(query.getClass().getSimpleName(),
+                () -> queryHandlerFor(query).handle(query));
+    }
+
+    private void traced(String name, Runnable action) {
+        traced(name, () -> { action.run(); return null; });
+    }
+
+    private <R> R traced(String name, Callable<R> action) {
+        var span = tracer.spanBuilder(name)
                 .setAttribute("handler.type", "query")
                 .startSpan();
-        try (Scope ignored = span.makeCurrent()) {
-            return handler.handle(query);
+        try (Scope _ = span.makeCurrent()) {
+            return action.call();
         } catch (Exception e) {
             span.setStatus(StatusCode.ERROR, e.getMessage());
             span.recordException(e);
-            throw e;
+            throw e instanceof RuntimeException re ? re : new RuntimeException(e);
         } finally {
             span.end();
         }
@@ -96,7 +88,11 @@ public class SpringMediator implements Mediator {
 
     @SuppressWarnings("unchecked")
     private <R> QueryHandler<Query<R>, R> queryHandlerFor(Query<R> query) {
-        return (QueryHandler<Query<R>, R>) queryHandlers.get(query.getClass());
+        var handler = (QueryHandler<Query<R>, R>) queryHandlers.get(query.getClass());
+        if (handler == null) {
+            throw new IllegalStateException("No handler found for query " + query.getClass().getName());
+        }
+        return handler;
     }
 
     private Class<?> handledTypeFor(Object handler, Class<?> handlerType) {
@@ -109,7 +105,11 @@ public class SpringMediator implements Mediator {
 
     @SuppressWarnings("unchecked")
     private CommandHandler<Command> commandHandlerFor(Command command) {
-        return (CommandHandler<Command>) commandHandlers.get(command.getClass());
+        var handler = (CommandHandler<Command>) commandHandlers.get(command.getClass());
+        if (handler == null) {
+            throw new IllegalStateException("No handler found for command " + command.getClass().getName());
+        }
+        return handler;
     }
 
     private boolean isHandlerType(Type i, Class<?> handlerType) {
