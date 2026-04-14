@@ -12,6 +12,7 @@ import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureRestTestClient
+@org.springframework.context.annotation.Import(TracingConfiguration.class)
 abstract class AcceptanceTest {
     @Autowired
     JdbcTemplate jdbcTemplate;

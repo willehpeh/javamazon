@@ -2,7 +2,6 @@ package tech.reactiv.ecommerce.shared.mediator;
 
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.trace.StatusCode;
-import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +17,6 @@ import java.util.stream.Stream;
 @Component
 public class SpringMediator implements Mediator {
 
-    private final Tracer tracer = GlobalOpenTelemetry.getTracer("mediator");
     private final Map<Class<?>, CommandHandler<?>> commandHandlers = new HashMap<>();
     private final Map<Class<?>, QueryHandler<?, ?>> queryHandlers = new HashMap<>();
 
@@ -55,17 +53,17 @@ public class SpringMediator implements Mediator {
 
     @Override
     public <R> R query(Query<R> query) {
-        return traced(query.getClass().getSimpleName(),
+        return traced(query.getClass().getSimpleName(), "query",
                 () -> queryHandlerFor(query).handle(query));
     }
 
     private void traced(String name, Runnable action) {
-        traced(name, () -> { action.run(); return null; });
+        traced(name, "command", () -> { action.run(); return null; });
     }
 
-    private <R> R traced(String name, Callable<R> action) {
-        var span = tracer.spanBuilder(name)
-                .setAttribute("handler.type", "query")
+    private <R> R traced(String name, String type, Callable<R> action) {
+        var span = GlobalOpenTelemetry.getTracer("mediator").spanBuilder(name)
+                .setAttribute("handler.type", type)
                 .startSpan();
         try (Scope _ = span.makeCurrent()) {
             return action.call();
